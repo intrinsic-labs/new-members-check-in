@@ -23,25 +23,27 @@ struct HomepageView: View {
                         .ignoresSafeArea()
                 VStack {
                     if user.isCurrentlyViewing == .missingMembersView {
-                        Spacer(minLength: 30)
-                        CCCTitleView(
-                            message: "Review Missing Members for a Class Date",
-                            messageSize: 24,
-                            omitTagline: true,
-                            viewStyle: .vertical
-                        ).transition(.opacity)
+                        Spacer(minLength: 25)
+                        HStack {
+                            CCCTitleView(
+                                showMessage: false,
+                                viewStyle: .horizontal
+                            ).transition(.opacity)
+                            Spacer()
+                        }
                         MissingMembersView()
                             .transition(.opacity)
                     }
                     
                     if user.isCurrentlyViewing == .checkInView {
-                        Spacer()
-                        CCCTitleView(
-                            message: "New Members Class",
-                            messageSize: 22,
-                            omitTagline: true,
-                            viewStyle: .vertical
-                        ).transition(.opacity)
+                        Spacer(minLength: 25)
+                        HStack {
+                            CCCTitleView(
+                                showMessage: false,
+                                viewStyle: .horizontal
+                            ).transition(.opacity)
+                            Spacer()
+                        }
                         CheckInView(toastModel: toast)
                             .transition(.opacity)
                         Spacer()
@@ -51,7 +53,6 @@ struct HomepageView: View {
                         EmptyView()
                     }
                 }
-                .padding(.vertical, 30)
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
                         HStack {

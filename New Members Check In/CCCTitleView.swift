@@ -23,25 +23,27 @@ struct CCCTitleView: View {
         
         if viewStyle == .horizontal {
             VStack {
-                HStack(spacing: 15) {
+                HStack {
                     Image("CCClogo.white")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 65)
+                        .frame(width: 65)
                     VStack(alignment: .leading, spacing: 3) {
-                        Text("CHRIST COVENANT CHURCH")
-                            .cccTitle()
+                        Text("NEW MEMBER CLASS")
+                        .cccTitle()
                         if omitTagline == false {
-                            Text("Standing on truth. Walking in grace.")
+                            Text("Christ Covenant Church")
                                 .cccSubtitle()
                         }
-                    }
-                }.padding(30)
+                    }.padding(.horizontal, 7)
+                }
                 if showMessage {
                     Text(message ?? "No message provided").cccBody(fontSize: messageSize)
                         .multilineTextAlignment(.center)
                 }
-            }.padding(30)
+            }
+            .padding(20)
+            .padding(.bottom, 20)
         }
         
         if viewStyle == .vertical {
@@ -133,3 +135,14 @@ extension View {
     }
 }
 
+
+struct CCCTitleView_Preview: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+//        ZStack {
+//            Color(hex: "1C3040")
+//                .ignoresSafeArea()
+//            CCCTitleView(showMessage: false, viewStyle: .horizontal)
+//        }
+    }
+}

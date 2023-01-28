@@ -38,18 +38,24 @@ struct ChecklistView: View {
             isSelected ? appendMethod(record) : removeMethod(record)
         }) {
             ZStack {
-                isSelected ? Color.white : Color(hex: "354959")
+                isSelected ? Color.white.opacity(0.32) : Color(hex: "354959")
                 //Build out checklist text
                 HStack {
                     Text(isSelected ? Image(systemName: "circle.inset.filled") : Image(systemName: "circle"))
                         .font(.title2)
-                        .foregroundColor(isSelected ? Color(hex: "1C3040") : .white)
+                        .foregroundColor(isSelected ? .white : .white)
                         .padding(.horizontal)
                     VStack(spacing: 0) {
                         Spacer()
                         HStack(spacing: 5) {
-                            Text(record.fields.fullName)
-                                .foregroundColor(isSelected ? Color(hex: "1C3040") : .white)
+                            if isSelected {
+                                Text(record.fields.fullName)
+                                    .foregroundColor(.white)
+                                    //.bold()
+                            } else {
+                                Text(record.fields.fullName)
+                                    .foregroundColor(.white)
+                            }
                             Spacer()
                         }
                         
