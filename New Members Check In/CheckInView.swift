@@ -82,7 +82,6 @@ struct CheckInView: View {
                             .cornerRadius(10, antialiased: true)
                             
                             Button(action: {
-                                searchbarModel.searchText = ""
                                 keyboardFocus = nil
                                 Task {
                                     // Ensure selection is valid
@@ -122,6 +121,7 @@ struct CheckInView: View {
                                     await airtable.loadDates(user: user)
                                     
                                     checklist.selectedMembers = []
+                                    searchbarModel.searchText = ""
                                     
                                     print("airtable.updateRecords: Successfully updated records!")
                                     withAnimation {
