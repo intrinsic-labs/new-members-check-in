@@ -13,7 +13,7 @@ class SearchbarModel: ObservableObject {
 }
 
 struct Searchbar: View {
-    @State var searchModel: SearchbarModel
+    @ObservedObject var searchModel: SearchbarModel
     @FocusState private var currentFocus: KeyboardFocus?
     
     var body: some View {
