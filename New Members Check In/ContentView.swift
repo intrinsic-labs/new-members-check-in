@@ -62,6 +62,7 @@ struct ContentView: View {
             let queue = DispatchQueue(label: "Monitor")
             monitor.start(queue: queue)
             
+//            FOR TESTING ONLY (Comment out before archiving):
 //            user.apiKey = "keyeDeAlkBJKqIH7q"
 //            Task {
 //                await airtable.authenticateUser(user)

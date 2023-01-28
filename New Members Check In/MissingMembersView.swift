@@ -16,9 +16,40 @@ struct MissingMembersView: View {
     //    API Key: keyeDeAlkBJKqIH7q
     
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 20) {
             if airtable.listOfAllDates != [defaultRecord] {
+                let pastDates = datesBeforeToday()
                 let missingMembers = membersMissingForDate(dateSelection.fields.date)
+                
+                // Here is the date picker
+                VStack {
+                    HStack(spacing: 0) {
+                        Text("The members listed below did not check in on \(dateSelection.fields.date.deciperDate()).")
+                            .foregroundColor(.white)
+                            //.font(.headline)
+                        
+                        Spacer()
+                        
+                        Picker("Select a date", selection: $dateSelection) {
+                            ForEach(pastDates, id: \.self) {
+                                Text("\($0.fields.date.deciperDate()) (Week \((airtable.listOfAllDates.firstIndex(of: $0) ?? 0)+1))")
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .tint(.orange)
+                        //.background(.white.opacity(0.2))
+                        .cornerRadius(10, antialiased: true)
+                        
+                        //Spacer()
+                    }.padding()
+                }
+                .frame(height: 50)
+                .background(Color(hex: "354959"))
+                .cornerRadius(10, antialiased: true)
+                .padding(.horizontal, 18)
+                .padding(.top, 7)
+                
+
                 if missingMembers.count != 0 {
                     
                     // This is the list of names
@@ -36,8 +67,13 @@ struct MissingMembersView: View {
                                                     .foregroundColor(.white)
                                                 Text("•")
                                                     .foregroundColor(.white)
-                                                Text("Last checked in on \(item.fields.attendance.last?.identifyDate(in: airtable.listOfAllDates) ?? "unknown")")
-                                                    .foregroundColor(.white.opacity(0.6))
+                                                if item.fields.attendance.last?.identifyDate(in: airtable.listOfAllDates) == nil {
+                                                    Text("No attendance record")
+                                                        .foregroundColor(.white.opacity(0.6))
+                                                } else {
+                                                    Text("Last checked in on \(item.fields.attendance.last?.identifyDate(in: airtable.listOfAllDates) ?? "unknown")")
+                                                        .foregroundColor(.white.opacity(0.6))
+                                                }
                                                 Spacer()
                                             }
                                             Spacer()
@@ -59,7 +95,8 @@ struct MissingMembersView: View {
                     }
                     .background(Color(hex: "354959"))
                     .cornerRadius(10, antialiased: true)
-                    .padding(.horizontal)
+                    .padding(.horizontal, 18)
+                    .padding(.bottom, 20)
                     
                     
                     
@@ -70,22 +107,6 @@ struct MissingMembersView: View {
                         .font(.title3)
                     Spacer()
                 }
-                
-                // Here is the date picker
-                HStack {
-                    Picker("Select a date", selection: $dateSelection) {
-                        ForEach(airtable.listOfAllDates, id: \.self) {
-                            Text("Week \((airtable.listOfAllDates.firstIndex(of: $0) ?? 0)+1): \($0.fields.date.deciperDate())")
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .tint(Color(hex: "1C3040"))
-                    .background(.white)
-                    .cornerRadius(10, antialiased: true)
-                }
-                .cornerRadius(10, antialiased: true)
-                .padding()
-                
                 
             } else {
                 Spacer()
@@ -98,8 +119,32 @@ struct MissingMembersView: View {
         }
         .task {
             await airtable.loadDates(user: user)
-            dateSelection = airtable.listOfAllDates[0]
+            dateSelection = datesBeforeToday().last ?? defaultRecord
         }
+    }
+    
+    func datesBeforeToday() -> [Record] {
+        var pastDates = [Record]()
+        
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        
+        for date in airtable.listOfAllDates {
+            let decodedDate = formatter.date(from: date.fields.date)
+            
+            guard let decodedDate = decodedDate else {
+                print("MissingMembersView.datesBeforeToday: Could not decode date from record.fields.date")
+                continue
+            }
+            
+            if decodedDate <= currentDate {
+                pastDates.append(date)
+            }
+            
+        }
+        
+        return pastDates
+        
     }
     
     func membersMissingForDate(_ isoDate: String) -> [Record] {

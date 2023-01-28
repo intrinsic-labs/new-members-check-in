@@ -82,6 +82,7 @@ struct CheckInView: View {
                             .cornerRadius(10, antialiased: true)
                             
                             Button(action: {
+                                searchbarModel.searchText = ""
                                 keyboardFocus = nil
                                 Task {
                                     // Ensure selection is valid
@@ -153,7 +154,7 @@ struct CheckInView: View {
                             .foregroundColor(.white.opacity(0.6))
                             .multilineTextAlignment(.center)
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 18)
                         
                         .onChange(of: searchbarModel.searchText) { newText in
                             if newText.lowercased() == "airtable.logout" {

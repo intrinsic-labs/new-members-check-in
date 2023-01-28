@@ -30,7 +30,7 @@ extension String {
         if self != "[empty date]" {
             var date = formatter.date(from: self)!
             date = date.advanced(by: 86400)
-            return date.fullFormat
+            return String(date.fullFormat.dropLast(6))
         }
         
         return "[empty date]"

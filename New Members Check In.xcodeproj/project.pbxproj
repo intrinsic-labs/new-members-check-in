@@ -76,22 +76,22 @@
 		ACBB72032971EE7A002F5FC3 /* New Members Check In */ = {
 			isa = PBXGroup;
 			children = (
-				ACBB72282971F713002F5FC3 /* New-Members-Check-In-Info.plist */,
-				ACBB72042971EE7A002F5FC3 /* New_Members_Check_InApp.swift */,
-				ACBB72122971F131002F5FC3 /* HomepageView.swift */,
-				ACE06B49297262200018F40A /* ContentView.swift */,
-				ACE06B4B297266910018F40A /* Authentication.swift */,
-				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
-				ACBB72162971F174002F5FC3 /* MissingMembersView.swift */,
-				ACBB72182971F364002F5FC3 /* SuccessToast.swift */,
-				ACBB721A2971F445002F5FC3 /* SearchbarView.swift */,
-				ACBB721C2971F45F002F5FC3 /* Records.swift */,
 				ACBB721E2971F4CB002F5FC3 /* Airtable.swift */,
-				ACBB72222971F500002F5FC3 /* Date.swift */,
-				ACBB72242971F511002F5FC3 /* Checklist.swift */,
+				ACE06B4B297266910018F40A /* Authentication.swift */,
 				ACBB72262971F524002F5FC3 /* CCCTitleView.swift */,
+				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
+				ACBB72242971F511002F5FC3 /* Checklist.swift */,
+				ACE06B49297262200018F40A /* ContentView.swift */,
+				ACBB72222971F500002F5FC3 /* Date.swift */,
 				ACBB72202971F4EE002F5FC3 /* HexColorExtension.swift */,
+				ACBB72122971F131002F5FC3 /* HomepageView.swift */,
+				ACBB72162971F174002F5FC3 /* MissingMembersView.swift */,
+				ACBB72042971EE7A002F5FC3 /* New_Members_Check_InApp.swift */,
+				ACBB721C2971F45F002F5FC3 /* Records.swift */,
+				ACBB721A2971F445002F5FC3 /* SearchbarView.swift */,
+				ACBB72182971F364002F5FC3 /* SuccessToast.swift */,
 				ACBB72082971EE7B002F5FC3 /* Assets.xcassets */,
+				ACBB72282971F713002F5FC3 /* New-Members-Check-In-Info.plist */,
 				ACBB720A2971EE7B002F5FC3 /* Preview Content */,
 			);
 			path = "New Members Check In";
@@ -316,7 +316,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"New Members Check In/Preview Content\"";
 				DEVELOPMENT_TEAM = 8462243PH7;
 				ENABLE_PREVIEWS = YES;
@@ -354,7 +354,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"New Members Check In/Preview Content\"";
 				DEVELOPMENT_TEAM = 8462243PH7;
 				ENABLE_PREVIEWS = YES;
