@@ -11,27 +11,31 @@ struct AirtableAuthenticationView: View {
     @EnvironmentObject var user: AirtableUser
     @EnvironmentObject var airtable: Airtable
     
-    @State private var localAPIKey = UserDefaults.standard.string(forKey: "localAPIKey")
+    @State private var localAPIToken = UserDefaults.standard.string(forKey: "localAPIToken")
     @State private var showingError = false
     @FocusState private var currentFocus: KeyboardFocus?
     
     //    FOR TESTING:
-    //    API Key: keyeDeAlkBJKqIH7q
+    //    API Token: REDACTED_AIRTABLE_PAT
     
     var body: some View {
             VStack(spacing: 30) {
-                Text("Airtable API Key")
+                Image(systemName: "lock.fill")
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                
+                Text("Airtable API Token")
                     .cccSubtitle(italic: false)
                     .foregroundColor(.white)
                 
-                SecureField("", text: $user.apiKey)
+                SecureField("", text: $user.apiToken)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: 330, maxHeight: 45)
                     .background(Color(hex: "354959"))
                     .cornerRadius(10, antialiased: true)
-                    .focused($currentFocus, equals: .apiKeyField)
+                    .focused($currentFocus, equals: .apiTokenField)
 
                 Text(airtable.errorMessage)
                     .foregroundColor(.orange)
@@ -55,8 +59,8 @@ struct AirtableAuthenticationView: View {
             }
             .padding(.horizontal, 30)
             .onAppear {
-                if localAPIKey != nil {
-                    user.apiKey = localAPIKey ?? ""
+                if localAPIToken != nil {
+                    user.apiToken = localAPIToken ?? ""
                 }
             }
             .onChange(of: user.isAuthenticated) { newValue in

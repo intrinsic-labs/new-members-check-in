@@ -57,6 +57,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC0532E62A8FD62800CD0BF2 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				AC0532EB2A8FD6DD00CD0BF2 /* remote */,
+				ACBB72202971F4EE002F5FC3 /* HexColorExtension.swift */,
+				ACBB72222971F500002F5FC3 /* Date.swift */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		AC0532E72A8FD62F00CD0BF2 /* presentation */ = {
+			isa = PBXGroup;
+			children = (
+				ACE06B49297262200018F40A /* ContentView.swift */,
+				ACBB72122971F131002F5FC3 /* HomepageView.swift */,
+				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
+				ACE06B4B297266910018F40A /* Authentication.swift */,
+				AC0532E92A8FD66200CD0BF2 /* records */,
+				AC0532E82A8FD65400CD0BF2 /* check in */,
+			);
+			path = presentation;
+			sourceTree = "<group>";
+		};
+		AC0532E82A8FD65400CD0BF2 /* check in */ = {
+			isa = PBXGroup;
+			children = (
+				AC0532EA2A8FD67300CD0BF2 /* components */,
+			);
+			path = "check in";
+			sourceTree = "<group>";
+		};
+		AC0532E92A8FD66200CD0BF2 /* records */ = {
+			isa = PBXGroup;
+			children = (
+				ACBB72162971F174002F5FC3 /* MissingMembersView.swift */,
+			);
+			path = records;
+			sourceTree = "<group>";
+		};
+		AC0532EA2A8FD67300CD0BF2 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				ACBB72242971F511002F5FC3 /* Checklist.swift */,
+				ACBB72262971F524002F5FC3 /* CCCTitleView.swift */,
+				ACBB721A2971F445002F5FC3 /* SearchbarView.swift */,
+				ACBB72182971F364002F5FC3 /* SuccessToast.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		AC0532EB2A8FD6DD00CD0BF2 /* remote */ = {
+			isa = PBXGroup;
+			children = (
+				ACBB721E2971F4CB002F5FC3 /* Airtable.swift */,
+				ACBB721C2971F45F002F5FC3 /* Records.swift */,
+			);
+			path = remote;
+			sourceTree = "<group>";
+		};
 		ACBB71F82971EE7A002F5FC3 = {
 			isa = PBXGroup;
 			children = (
@@ -76,20 +135,9 @@
 		ACBB72032971EE7A002F5FC3 /* New Members Check In */ = {
 			isa = PBXGroup;
 			children = (
-				ACBB721E2971F4CB002F5FC3 /* Airtable.swift */,
-				ACE06B4B297266910018F40A /* Authentication.swift */,
-				ACBB72262971F524002F5FC3 /* CCCTitleView.swift */,
-				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
-				ACBB72242971F511002F5FC3 /* Checklist.swift */,
-				ACE06B49297262200018F40A /* ContentView.swift */,
-				ACBB72222971F500002F5FC3 /* Date.swift */,
-				ACBB72202971F4EE002F5FC3 /* HexColorExtension.swift */,
-				ACBB72122971F131002F5FC3 /* HomepageView.swift */,
-				ACBB72162971F174002F5FC3 /* MissingMembersView.swift */,
+				AC0532E72A8FD62F00CD0BF2 /* presentation */,
+				AC0532E62A8FD62800CD0BF2 /* data */,
 				ACBB72042971EE7A002F5FC3 /* New_Members_Check_InApp.swift */,
-				ACBB721C2971F45F002F5FC3 /* Records.swift */,
-				ACBB721A2971F445002F5FC3 /* SearchbarView.swift */,
-				ACBB72182971F364002F5FC3 /* SuccessToast.swift */,
 				ACBB72082971EE7B002F5FC3 /* Assets.xcassets */,
 				ACBB72282971F713002F5FC3 /* New-Members-Check-In-Info.plist */,
 				ACBB720A2971EE7B002F5FC3 /* Preview Content */,
@@ -316,7 +364,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"New Members Check In/Preview Content\"";
 				DEVELOPMENT_TEAM = 8462243PH7;
 				ENABLE_PREVIEWS = YES;
@@ -328,8 +376,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,7 +390,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -354,7 +404,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"New Members Check In/Preview Content\"";
 				DEVELOPMENT_TEAM = 8462243PH7;
 				ENABLE_PREVIEWS = YES;
@@ -366,8 +416,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -378,7 +430,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
