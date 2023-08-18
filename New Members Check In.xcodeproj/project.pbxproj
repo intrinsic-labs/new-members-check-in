@@ -60,9 +60,9 @@
 		AC0532E62A8FD62800CD0BF2 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				AC0532EB2A8FD6DD00CD0BF2 /* remote */,
 				ACBB72202971F4EE002F5FC3 /* HexColorExtension.swift */,
 				ACBB72222971F500002F5FC3 /* Date.swift */,
+				AC0532EB2A8FD6DD00CD0BF2 /* remote */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -72,9 +72,8 @@
 			children = (
 				ACE06B49297262200018F40A /* ContentView.swift */,
 				ACBB72122971F131002F5FC3 /* HomepageView.swift */,
-				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
 				ACE06B4B297266910018F40A /* Authentication.swift */,
-				AC0532E92A8FD66200CD0BF2 /* records */,
+				AC0532E92A8FD66200CD0BF2 /* missing members */,
 				AC0532E82A8FD65400CD0BF2 /* check in */,
 			);
 			path = presentation;
@@ -83,17 +82,18 @@
 		AC0532E82A8FD65400CD0BF2 /* check in */ = {
 			isa = PBXGroup;
 			children = (
+				ACBB72142971F156002F5FC3 /* CheckInView.swift */,
 				AC0532EA2A8FD67300CD0BF2 /* components */,
 			);
 			path = "check in";
 			sourceTree = "<group>";
 		};
-		AC0532E92A8FD66200CD0BF2 /* records */ = {
+		AC0532E92A8FD66200CD0BF2 /* missing members */ = {
 			isa = PBXGroup;
 			children = (
 				ACBB72162971F174002F5FC3 /* MissingMembersView.swift */,
 			);
-			path = records;
+			path = "missing members";
 			sourceTree = "<group>";
 		};
 		AC0532EA2A8FD67300CD0BF2 /* components */ = {

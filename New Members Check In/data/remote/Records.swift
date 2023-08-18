@@ -23,9 +23,28 @@ struct SendableFields: Codable {
     }
 }
 
-struct Records: Codable {
+struct Records: Decodable {
     var records: [Record]
+    var offest: String
+    
+    enum CodingKeys: String, CodingKey {
+        case records = "records"
+        case offset = "offset"
+    }
 }
+
+extension Records {
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        records = try values.decodeIfPresent(Array.self, forKey: .records) ?? [Record]()
+        offest = try values.decodeIfPresent(String.self, forKey: .offset) ?? ""
+    }
+}
+
+
+
+
+
 
 struct Record: Codable, Identifiable, Hashable {
     var id: String = "defaultRecord"
@@ -83,4 +102,4 @@ extension String {
 
 let defaultFields = Fields()
 let defaultRecord = Record(fields: defaultFields)
-let defaultRecords = Records(records: [defaultRecord])
+let defaultRecords = Records(records: [defaultRecord], offest: "")
