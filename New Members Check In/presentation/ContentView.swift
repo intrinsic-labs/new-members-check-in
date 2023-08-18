@@ -9,7 +9,7 @@ import SwiftUI
 import Network
 
 enum KeyboardFocus {
-    case searchbar, apiKeyField
+    case searchbar, apiTokenField
 }
 
 #if canImport(UIKit)
@@ -35,7 +35,7 @@ struct ContentView: View {
                     Text(Image(systemName: "wifi.slash"))
                         .font(.title)
                         .foregroundColor(.white)
-                    Text("No Network Connection")
+                    Text("No Internet Connection")
                         .font(.title3)
                         .foregroundColor(.white)
                 }
@@ -63,14 +63,14 @@ struct ContentView: View {
             monitor.start(queue: queue)
             
 //            FOR TESTING ONLY (Comment out before archiving):
-//            user.apiKey = "keyeDeAlkBJKqIH7q"
+//            user.apiToken = "patd2M1JxX7MmxCY0.5b0678f6cbe5a823c9b41f3e4666ced64ebf4ffbd91efb96613f498d8587e57a"
 //            Task {
 //                await airtable.authenticateUser(user)
 //            }
             
-            let savedAPIKey = UserDefaults.standard.string(forKey: "localAPIKey")
-            if let savedAPIKey = savedAPIKey {
-                user.apiKey = savedAPIKey
+            let savedAPIToken = UserDefaults.standard.string(forKey: "localAPIToken")
+            if let savedAPIToken = savedAPIToken {
+                user.apiToken = savedAPIToken
                 Task {
                     await airtable.authenticateUser(user)
                 }

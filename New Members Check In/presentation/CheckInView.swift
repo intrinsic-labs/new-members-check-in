@@ -168,8 +168,8 @@ struct CheckInView: View {
                             Button("Cancel", role: .cancel) { }
                             
                             Button("Log Out") {
-                                user.apiKey = ""
-                                UserDefaults.standard.set("", forKey: "localAPIKey")
+                                user.apiToken = ""
+                                UserDefaults.standard.set("", forKey: "localAPIToken")
                                 user.isAuthenticated = false
                                 user.isCurrentlyViewing = .loginView
                             }

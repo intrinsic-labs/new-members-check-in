@@ -18,9 +18,9 @@ class AirtableUser: ObservableObject {
     @Published var isAuthenticated = false
     
 //    FOR TESTING:
-//    API Key: keyeDeAlkBJKqIH7q
+//    API Token: patd2M1JxX7MmxCY0.5b0678f6cbe5a823c9b41f3e4666ced64ebf4ffbd91efb96613f498d8587e57a
 //    Base ID: appOF6u4kcIz7OPNR
-    @Published var apiKey: String = ""
+    @Published var apiToken: String = ""
     let baseID: String = "appM9E6gadZ36GN2Y"
     
 }
@@ -41,7 +41,7 @@ class Airtable: ObservableObject {
     func loadMembers(user: AirtableUser) async {
         let url = URL(string: "https://api.airtable.com/v0/\(user.baseID)/New%20Members?view=Grid%20View")!
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(user.apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         do {
@@ -63,7 +63,7 @@ class Airtable: ObservableObject {
     func loadDates(user: AirtableUser) async {
         let url = URL(string: "https://api.airtable.com/v0/\(user.baseID)/Attendance?view=Grid%20View")!
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(user.apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -93,7 +93,7 @@ class Airtable: ObservableObject {
             if selection != [defaultRecord] {
                 let url = URL(string: "https://api.airtable.com/v0/\(user.baseID)/New%20Members")!
                 var request = URLRequest(url: url)
-                request.setValue("Bearer \(user.apiKey)", forHTTPHeaderField: "Authorization")
+                request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.httpMethod = "PATCH"
                 
@@ -126,7 +126,7 @@ class Airtable: ObservableObject {
     func authenticateUser(_ user: AirtableUser) async {
         let url = URL(string: "https://api.airtable.com/v0/\(user.baseID)/New%20Members?maxRecords=1")!
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(user.apiKey)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request) { (_, response, error) in
@@ -138,7 +138,7 @@ class Airtable: ObservableObject {
             if response.statusCode == 200 {
                 Task {
                     await MainActor.run {
-                        UserDefaults.standard.setValue(user.apiKey, forKey: "localAPIKey")
+                        UserDefaults.standard.setValue(user.apiToken, forKey: "localAPIToken")
                         user.isAuthenticated = true
                     }
                 }
