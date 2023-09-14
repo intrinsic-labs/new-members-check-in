@@ -64,17 +64,12 @@ struct ContentView: View {
             
 //            FOR TESTING ONLY (Comment out before archiving):
 //            user.apiToken = "REDACTED_AIRTABLE_PAT"
+//            user.apiToken = "keyeDeAlkBJKqIH7q"
+
 //            Task {
 //                await airtable.authenticateUser(user)
 //            }
             
-            let savedAPIToken = UserDefaults.standard.string(forKey: "localAPIToken")
-            if let savedAPIToken = savedAPIToken {
-                user.apiToken = savedAPIToken
-                Task {
-                    await airtable.authenticateUser(user)
-                }
-            }
         }
         .onChange(of: user.isAuthenticated) { newValue in
             if newValue {

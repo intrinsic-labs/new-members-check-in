@@ -61,6 +61,9 @@ struct AirtableAuthenticationView: View {
             .onAppear {
                 if localAPIToken != nil {
                     user.apiToken = localAPIToken ?? ""
+                    Task {
+                        await airtable.authenticateUser(user)
+                    }
                 }
             }
             .onChange(of: user.isAuthenticated) { newValue in
