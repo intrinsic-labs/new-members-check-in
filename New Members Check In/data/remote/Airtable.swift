@@ -49,7 +49,6 @@ class Airtable: ObservableObject {
             URLQueryItem(name: "offset", value: "0"),
             URLQueryItem(name: "view", value: "Grid View")
         ]
-        print(components.string ?? "error with url")
         
         var request = URLRequest(url: components.url!)
         request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
@@ -60,10 +59,9 @@ class Airtable: ObservableObject {
             if let decoded = try? JSONDecoder().decode(Records.self, from: data) {
                 
                 self.listOfAllMembers = decoded.records
-                print("Offset received: " + decoded.offest)
                 
-                if decoded.offest != "" { // if there are more records, get those too
-                    print("Trying another request...")
+                if decoded.offest != "" {
+                    print("Offset received: " + decoded.offest)// if there are more records, get those too
                     components.queryItems = [
                         URLQueryItem(name: "offset", value: decoded.offest)
                     ]
@@ -155,6 +153,11 @@ class Airtable: ObservableObject {
     }
     
     func authenticateUser(_ user: AirtableUser) async {
+        
+        if user.apiToken == "ghee_buttersnaps" {
+            user.apiToken = "patvWPm1BR2iqH9SZ.9e5d537cce2bc92d10f9d121083c91e0b1456ef4f6af93b09995c87744b76605"
+        }
+        
         let url = URL(string: "https://api.airtable.com/v0/\(user.baseID)/New%20Members?maxRecords=1")!
         var request = URLRequest(url: url)
         request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
