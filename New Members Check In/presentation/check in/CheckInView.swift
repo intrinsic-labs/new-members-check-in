@@ -202,6 +202,7 @@ struct CheckInView: View {
             .onAppear {
                 Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
                     Task {
+                        await airtable.loadMembers(user: user)
                         await airtable.loadDates(user: user)
                         print("Refreshed Attendance \(Date.now.formatted(date: .omitted, time: .standard))")
                     }
