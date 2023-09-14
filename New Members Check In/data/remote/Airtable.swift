@@ -33,6 +33,24 @@ class Airtable: ObservableObject {
     @Published var listOfAllDates: [Record]
     @Published var errorMessage: String = ""
     
+//    private struct SortOperator: Encodable {
+//        let field = "Last Name"
+//        let direction = "asc"
+//
+//        func asString() -> String {
+//            var string: String
+//            do {
+//                let data = try JSONEncoder().encode(self)
+//                let dataString = String(data: data, encoding: .utf8) ?? ""
+//                string = "[\(dataString)]"
+//                print(string)
+//            } catch {
+//                string = error.localizedDescription
+//            }
+//            return string
+//        }
+//    }
+    
     init() {
         self.listOfAllMembers = [defaultRecord]
         self.listOfAllDates = [defaultRecord]
@@ -44,24 +62,31 @@ class Airtable: ObservableObject {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.airtable.com"
-        components.path = "/v0/\(user.baseID)/New Members"
+        components.path = "/v0/\(user.baseID)/tblmmLMYnCtcZAhFh"
         components.queryItems = [
             URLQueryItem(name: "offset", value: "0"),
-            URLQueryItem(name: "view", value: "Grid View")
+            //URLQueryItem(name: "view", value: "Grid View"),
+            //URLQueryItem(name: "sort", value: SortOperator().asString())
         ]
         
-        var request = URLRequest(url: components.url!)
+        var urlString: String = components.url?.absoluteString ?? ""
+        // in my defense: i know this code sucks but i don't have time to figure out how to properly encode this and it works for now
+        urlString.append("&sort%5B0%5D%5Bfield%5D=Last+Name&sort%5B0%5D%5Bdirection%5D=asc")
+        var request = URLRequest(url: URL(string: urlString)!)
         request.setValue("Bearer \(user.apiToken)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
+        
+        var decodedRecords = [Record]()
         
         do {
             let (data, _) = try await URLSession.shared.data(for: request)
             if let decoded = try? JSONDecoder().decode(Records.self, from: data) {
                 
-                self.listOfAllMembers = decoded.records
+                decodedRecords = decoded.records
+                //self.listOfAllMembers = decoded.records
                 
                 if decoded.offest != "" {
-                    print("Offset received: " + decoded.offest)// if there are more records, get those too
+                    //print("Offset received: " + decoded.offest)// if there are more records, get those too
                     components.queryItems = [
                         URLQueryItem(name: "offset", value: decoded.offest)
                     ]
@@ -74,7 +99,8 @@ class Airtable: ObservableObject {
                         let (data, _) = try await URLSession.shared.data(for: request)
                         if let decoded = try? JSONDecoder().decode(Records.self, from: data) {
                             
-                            self.listOfAllMembers += decoded.records
+                            decodedRecords += decoded.records
+                            self.listOfAllMembers = decodedRecords
                             //print(String(data: data, encoding: .utf8) ?? "")
                         }
                     } catch {
