@@ -63,6 +63,7 @@ class Airtable: ObservableObject {
         components.scheme = "https"
         components.host = "api.airtable.com"
         components.path = "/v0/\(user.baseID)/tblmmLMYnCtcZAhFh"
+        //components.path = "/v0/\(user.baseID)/tblaTK7LnZakDJ4zZ"
         components.queryItems = [
             URLQueryItem(name: "offset", value: "0"),
             //URLQueryItem(name: "view", value: "Grid View"),
@@ -86,7 +87,7 @@ class Airtable: ObservableObject {
                 //self.listOfAllMembers = decoded.records
                 
                 if decoded.offest != "" {
-                    //print("Offset received: " + decoded.offest)// if there are more records, get those too
+                    print("Offset received: " + decoded.offest)// if there are more records, get those too
                     components.queryItems = [
                         URLQueryItem(name: "offset", value: decoded.offest)
                     ]
@@ -100,7 +101,6 @@ class Airtable: ObservableObject {
                         if let decoded = try? JSONDecoder().decode(Records.self, from: data) {
                             
                             decodedRecords += decoded.records
-                            self.listOfAllMembers = decodedRecords
                             //print(String(data: data, encoding: .utf8) ?? "")
                         }
                     } catch {
@@ -108,6 +108,8 @@ class Airtable: ObservableObject {
                     }
                     
                 }
+                
+                self.listOfAllMembers = decodedRecords
                 
             } else {
                 print(String(data: data, encoding: .utf8) ?? "")
