@@ -21,11 +21,10 @@ extension View {
 #endif
 
 struct ContentView: View {
-    @StateObject var user = AirtableUser()
-    @StateObject var airtable = Airtable()
+    @StateObject var user = AuthUser()
     let monitor = NWPathMonitor()
     @State private var networkConnection = true
-    
+
     var body: some View {
         ZStack {
             Color(hex: "1C3040")
@@ -40,14 +39,12 @@ struct ContentView: View {
                         .foregroundColor(.white)
                 }
             } else if user.isCurrentlyViewing == .loginView {
-                    AirtableAuthenticationView()
+                AuthenticationView()
             } else {
                 HomepageView()
             }
-            
         }
         .environmentObject(user)
-        .environmentObject(airtable)
         .onAppear {
             monitor.pathUpdateHandler = { path in
                 if path.status == .satisfied {
@@ -58,18 +55,9 @@ struct ContentView: View {
                     print("No internet connection")
                 }
             }
-            
+
             let queue = DispatchQueue(label: "Monitor")
             monitor.start(queue: queue)
-            
-//            FOR TESTING ONLY (Comment out before archiving):
-//            user.apiToken = "patd2M1JxX7MmxCY0.5b0678f6cbe5a823c9b41f3e4666ced64ebf4ffbd91efb96613f498d8587e57a"
-//            user.apiToken = "keyeDeAlkBJKqIH7q"
-
-//            Task {
-//                await airtable.authenticateUser(user)
-//            }
-            
         }
         .onChange(of: user.isAuthenticated) { newValue in
             if newValue {
