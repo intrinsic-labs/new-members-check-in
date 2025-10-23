@@ -17,6 +17,7 @@ struct CheckInView: View {
     @State private var errorAlertMessage = ""
     @StateObject var searchbarModel = SearchbarModel()
     @State var toastModel: ToastModel
+    @State private var checkedInMemberIds: Set<Int> = []
 
     @FocusState private var keyboardFocus: KeyboardFocus?
 
@@ -32,7 +33,9 @@ struct CheckInView: View {
 
     /// Create a list of members who have not checked in today
     var listOfUncheckedMembers: [Member] {
-        supabase.listOfAllMembers
+        supabase.listOfAllMembers.filter { member in
+            !checkedInMemberIds.contains(member.id)
+        }
     }
     
     var body: some View {
@@ -86,6 +89,7 @@ struct CheckInView: View {
                                     }
 
                                     // Check in each selected member
+                                    let countCheckedIn = checklist.selectedMembers.count
                                     for memberRecord in checklist.selectedMembers {
                                         let success = await supabase.updateAttendance(
                                             memberId: memberRecord.id,
@@ -99,14 +103,13 @@ struct CheckInView: View {
                                         }
                                     }
 
-                                    // Reload data
-                                    await supabase.loadMembers(user: user)
-                                    await supabase.loadDates(user: user)
+                                    // Reload today's attendance to update the filtered list
+                                    await loadTodaysAttendance()
 
                                     checklist.selectedMembers = []
                                     searchbarModel.searchText = ""
 
-                                    print("✅ Successfully checked in \(checklist.selectedMembers.count) members!")
+                                    print("✅ Successfully checked in \(countCheckedIn) members!")
                                     withAnimation {
                                         toastModel.isPresented.toggle()
                                     }
@@ -131,7 +134,7 @@ struct CheckInView: View {
                             Text(
                                 checklist.selectedMembers.count == 0 ?
                                 "Select a name to check them in." :
-                                "Checked in: \(checklist.selectedMembers.count) member(s)"
+                                    "Check in \(checklist.selectedMembers.count) member\(checklist.selectedMembers.count == 1 ? "" : "s")"
                             )
                             .foregroundColor(.white.opacity(0.6))
                             .multilineTextAlignment(.center)
@@ -165,13 +168,30 @@ struct CheckInView: View {
                 Task {
                     await supabase.subscribeToMembers(user: user)
                     await supabase.subscribeToAttendance(user: user)
+                    await loadTodaysAttendance()
                 }
             }
             .onDisappear {
                 // Unsubscribe when leaving view
                 supabase.unsubscribeAll()
             }
+            .onChange(of: supabase.listOfAllDates) { _ in
+                // Reload today's attendance when dates change
+                Task {
+                    await loadTodaysAttendance()
+                }
+            }
         }
+    }
+
+    func loadTodaysAttendance() async {
+        guard let todayDate = todayDateRecord() else {
+            checkedInMemberIds = []
+            return
+        }
+
+        checkedInMemberIds = await supabase.getAttendanceForDate(dateId: todayDate.id)
+        print("📋 Today's attendance: \(checkedInMemberIds.count) members checked in")
     }
 }
 
