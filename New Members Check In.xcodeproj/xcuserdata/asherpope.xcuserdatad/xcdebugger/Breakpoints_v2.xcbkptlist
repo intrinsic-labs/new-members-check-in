@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "74CDB802-D35A-4E1E-9B98-5E61F076328B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -24,7 +24,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "171B8B75-3947-45C9-992F-1795E294D81E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -34,75 +34,13 @@
             endingLineNumber = "81"
             landmarkName = "loadMembers(user:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "171B8B75-3947-45C9-992F-1795E294D81E - b5fbdae14db7eaa8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "1928">
-               </Location>
-               <Location
-                  uuid = "171B8B75-3947-45C9-992F-1795E294D81E - ad896f01e52f6787"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "171B8B75-3947-45C9-992F-1795E294D81E - 7873dfe72a59af2a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "164">
-               </Location>
-               <Location
-                  uuid = "171B8B75-3947-45C9-992F-1795E294D81E - c3afd650141e31ed"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(6) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "83"
-                  endingLineNumber = "83"
-                  offsetFromSymbolStart = "72">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "085D44B4-D1EC-4F69-AB24-179C369D86F6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -118,7 +56,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "5EB5012D-1A2A-489D-ADFB-97E1EB5E3F79"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -134,7 +72,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DB661D49-9AF2-4248-98F9-BE388D485609"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -144,75 +82,13 @@
             endingLineNumber = "122"
             landmarkName = "loadMembers(user:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DB661D49-9AF2-4248-98F9-BE388D485609 - 7873dfe72a59a821"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "122"
-                  endingLineNumber = "122"
-                  offsetFromSymbolStart = "2896">
-               </Location>
-               <Location
-                  uuid = "DB661D49-9AF2-4248-98F9-BE388D485609 - 3eebd0ed060314a7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "122"
-                  endingLineNumber = "122"
-                  offsetFromSymbolStart = "912">
-               </Location>
-               <Location
-                  uuid = "DB661D49-9AF2-4248-98F9-BE388D485609 - c3afd650141e36e6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(6) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "122"
-                  endingLineNumber = "122"
-                  offsetFromSymbolStart = "660">
-               </Location>
-               <Location
-                  uuid = "DB661D49-9AF2-4248-98F9-BE388D485609 - e563d5d3e234d725"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for New_Members_Check_In.Airtable.loadMembers(user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "122"
-                  endingLineNumber = "122"
-                  offsetFromSymbolStart = "808">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3370FC26-07BF-4BF0-B9B9-08EFA203FC0D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -228,7 +104,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "E725D977-C209-4260-95F5-E275D4D8BBB1"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -244,7 +120,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "395F914B-9797-43EF-9329-85EB27F12CFE"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "New Members Check In/data/remote/Airtable.swift"
@@ -253,69 +129,6 @@
             startingLineNumber = "181"
             endingLineNumber = "181"
             landmarkName = "updateRecords(for:user:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "395F914B-9797-43EF-9329-85EB27F12CFE - 55823061d9b554c1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for New_Members_Check_In.Airtable.updateRecords(for: Swift.Array&lt;New_Members_Check_In.Record&gt;, user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "3732">
-               </Location>
-               <Location
-                  uuid = "395F914B-9797-43EF-9329-85EB27F12CFE - 1b9400e03e8c10cf"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for New_Members_Check_In.Airtable.updateRecords(for: Swift.Array&lt;New_Members_Check_In.Record&gt;, user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "752">
-               </Location>
-               <Location
-                  uuid = "395F914B-9797-43EF-9329-85EB27F12CFE - 3c9318bfd17372cc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for New_Members_Check_In.Airtable.updateRecords(for: Swift.Array&lt;New_Members_Check_In.Record&gt;, user: New_Members_Check_In.AirtableUser) async -&gt; ()"
-                  moduleName = "New Members Check In"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/asherpope/Library/Mobile%20Documents/com~apple~CloudDocs/Xcode/New%20Members%20Check%20In/New%20Members%20Check%20In/data/remote/Airtable.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "181"
-                  endingLineNumber = "181"
-                  offsetFromSymbolStart = "732">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DE7F738D-3C3B-425B-98A3-662C9277F631"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "New Members Check In/data/remote/Airtable.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
-            landmarkName = "authenticateUser(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

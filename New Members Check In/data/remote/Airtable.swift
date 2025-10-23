@@ -206,6 +206,7 @@ class Airtable: ObservableObject {
                 }
             } else {
                 print(response.statusCode)
+                print(response)
                 Task {
                     await MainActor.run {
                         self.errorMessage = "That API Key didn't work. Please try again."
