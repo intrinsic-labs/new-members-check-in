@@ -27,6 +27,7 @@ struct Searchbar: View {
             
             Button("\(Image(systemName: "xmark"))") {
                 searchModel.searchText = ""
+                currentFocus = nil
             }.tint(.white.opacity(currentFocus == .searchbar ? 0.5 : 0))
         }
         .padding()
