@@ -9,50 +9,37 @@
 import SwiftUI
 
 struct CheckInView: View {
-    @EnvironmentObject var user: AirtableUser
-    @EnvironmentObject var airtable: Airtable
+    @EnvironmentObject var user: AuthUser
+    @StateObject var supabase = SupabaseService()
 
-    @State private var dateSelection: Record = defaultRecord
     @StateObject var checklist = ChecklistModel()
     @State private var showingErrorAlert = false
     @State private var errorAlertMessage = ""
-    @State private var showingLogoutAlert = false
     @StateObject var searchbarModel = SearchbarModel()
     @State var toastModel: ToastModel
-    
+
     @FocusState private var keyboardFocus: KeyboardFocus?
-    
-    // Find out if there is a date record in Airtable matching the current date
-    func airtableCurrentDate() -> Record {
-        var airtableToday = defaultRecord
-        for date in airtable.listOfAllDates {
-            if date.fields.date == currentDate.isoFormat {
-                airtableToday = date
-            } else {
-                continue
-            }
-        }
-        return airtableToday
+
+    /// Find today's date record in Supabase
+    func todayDateRecord() -> AttendanceDate? {
+        let today = currentDate.isoFormat
+        let dateRecord = supabase.listOfAllDates.first(where: { date in
+            date.classDate == today
+        })
+        print("Checking date: \(today) (today) vs \(dateRecord?.classDate ?? "nil")")
+        return dateRecord
     }
-    
-    // Create a list of people who have not checked in today
-    var listOfUncheckedMembers: [Record] {
-        var notCheckedIn = [Record]()
-        for member in airtable.listOfAllMembers {
-            if airtableCurrentDate().fields.newMembers.contains(member.id) {
-                continue
-            } else {
-                notCheckedIn.append(member)
-            }
-        }
-        return notCheckedIn
+
+    /// Create a list of members who have not checked in today
+    var listOfUncheckedMembers: [Member] {
+        supabase.listOfAllMembers
     }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 10) {
-                if airtable.listOfAllDates != [defaultRecord] {
-                    if listOfUncheckedMembers != [] {
+                if !supabase.listOfAllDates.isEmpty {
+                    if !listOfUncheckedMembers.isEmpty {
                         VStack(spacing: 20) {
                             Searchbar(searchModel: searchbarModel)
                                 .focused($keyboardFocus, equals: .searchbar)
@@ -61,26 +48,22 @@ struct CheckInView: View {
                                 }
                             ScrollView {
                                 LazyVStack(spacing: 0) {
-                                    ForEach(listOfUncheckedMembers, id: \.self) { member in
-                                        
+                                    ForEach(listOfUncheckedMembers, id: \.id) { member in
                                         // If there is a search:
                                         if searchbarModel.searchText != "" {
-                                            if member.fields.fullName.lowercased().contains(searchbarModel.searchText.lowercased()) {
-                                                ChecklistView(record: member, appendMethod: checklist.append, removeMethod: checklist.remove)
+                                            if member.fullName.lowercased().contains(searchbarModel.searchText.lowercased()) {
+                                                ChecklistViewNew(member: member, checklist: checklist)
                                             }
-                                            
                                         // If there isn't a search, load all unchecked members
                                         } else {
-                                            ChecklistView(record: member, appendMethod: checklist.append, removeMethod: checklist.remove)
+                                            ChecklistViewNew(member: member, checklist: checklist)
                                         }
-                                        
-                                        
                                     }.animation(.default, value: listOfUncheckedMembers)
                                 }
                             }
                             .background(Color(hex: "354959"))
                             .cornerRadius(10, antialiased: true)
-                            
+
                             Button(action: {
                                 keyboardFocus = nil
                                 Task {
@@ -94,41 +77,40 @@ struct CheckInView: View {
                                         showingErrorAlert = true
                                         return
                                     }
-                                    
-                                    // Make sure there is date record in Airtable matching the current date
-                                    let airtableToday = airtableCurrentDate()
-                                    if airtableToday == defaultRecord {
+
+                                    // Make sure there is a date record for today
+                                    guard let todayDate = todayDateRecord() else {
                                         errorAlertMessage = "There is no class scheduled for today."
                                         showingErrorAlert = true
                                         return
                                     }
-                                    
-                                    // Add today's date to selected members' attendance records
-                                    var loc = 0
-                                    var runLoop = true
-                                    while runLoop {
-                                        checklist.selectedMembers[loc].fields.attendance.append(airtableToday.id)
-                                        loc += 1
-                                        if checklist.selectedMembers.count == 1 || loc == (checklist.selectedMembers.endIndex) {
-                                            runLoop = false
+
+                                    // Check in each selected member
+                                    for memberRecord in checklist.selectedMembers {
+                                        let success = await supabase.updateAttendance(
+                                            memberId: memberRecord.id,
+                                            dateId: todayDate.id,
+                                            user: user
+                                        )
+                                        if !success {
+                                            errorAlertMessage = "Failed to check in one or more members."
+                                            showingErrorAlert = true
+                                            return
                                         }
                                     }
-                                    
-                                    // Push it up to the Airtable server with a PATCH request
-                                    await airtable.updateRecords(for: checklist.selectedMembers, user: user)
-                                    
-                                    // Load listOfAllDates using data from Airtable
-                                    await airtable.loadDates(user: user)
-                                    
+
+                                    // Reload data
+                                    await supabase.loadMembers(user: user)
+                                    await supabase.loadDates(user: user)
+
                                     checklist.selectedMembers = []
                                     searchbarModel.searchText = ""
-                                    
-                                    print("airtable.updateRecords: Successfully updated records!")
+
+                                    print("✅ Successfully checked in \(checklist.selectedMembers.count) members!")
                                     withAnimation {
                                         toastModel.isPresented.toggle()
                                     }
                                 }
-                                
                             }) {
                                 Text("CHECK IN")
                                     .foregroundColor(Color(hex: "1C3040"))
@@ -136,7 +118,6 @@ struct CheckInView: View {
                                     .frame(maxWidth: .infinity, maxHeight: 60)
                                     .background(.white)
                                     .cornerRadius(10, antialiased: true)
-                                
                             }
                             .alert(isPresented: $showingErrorAlert) {
                                 Alert(
@@ -145,36 +126,17 @@ struct CheckInView: View {
                                     dismissButton: .default(Text("OK"))
                                 )
                             }
-                            
-                            // The most complicated string possible
+
+                            // Status text
                             Text(
                                 checklist.selectedMembers.count == 0 ?
-                                "Select a name to see most recent check in date." :
-                                    "\(checklist.selectedMembers.last?.fields.fullName ?? "Unknown Name") last checked in on \(checklist.selectedMembers.last?.fields.attendance.last?.identifyDate(in: airtable.listOfAllDates) ?? "unknown")")
+                                "Select a name to check them in." :
+                                "Checked in: \(checklist.selectedMembers.count) member(s)"
+                            )
                             .foregroundColor(.white.opacity(0.6))
                             .multilineTextAlignment(.center)
                         }
                         .padding(.horizontal, 18)
-                        
-                        .onChange(of: searchbarModel.searchText) { newText in
-                            if newText.lowercased() == "airtable.logout" {
-                                showingLogoutAlert.toggle()
-                            }
-                        }
-                        
-                        .alert("Do you really want to log out of Airtable?", isPresented: $showingLogoutAlert) {
-                            Text("You will have to re-enter your API key.")
-                            
-                            Button("Cancel", role: .cancel) { }
-                            
-                            Button("Log Out") {
-                                user.apiToken = ""
-                                UserDefaults.standard.set("", forKey: "localAPIToken")
-                                user.isAuthenticated = false
-                                user.isCurrentlyViewing = .loginView
-                            }
-                        }
-                        
                     } else {
                         Spacer()
                         Text("All members have checked in for \(currentDate.fullFormat).")
@@ -187,29 +149,27 @@ struct CheckInView: View {
                     ProgressView()
                     Spacer()
                 }
-                
             }
             .task {
-                // Load listOfAllMembers using data from Airtable endpoint "New Members"
-                await airtable.loadMembers(user: user)
+                // Load members from Supabase
+                await supabase.loadMembers(user: user)
                 print("Loading members...")
             }
             .task {
-                // Load listOfAllDates using data from Airtable endpoint "Attendance"
-                await airtable.loadDates(user: user)
+                // Load dates from Supabase
+                await supabase.loadDates(user: user)
                 print("Loading dates...")
             }
             .onAppear {
-                Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { timer in
-                    Task {
-                        await airtable.loadMembers(user: user)
-                        await airtable.loadDates(user: user)
-                        print("Refreshed Attendance \(Date.now.formatted(date: .omitted, time: .standard))")
-                    }
-                    if user.isCurrentlyViewing != .checkInView {
-                        timer.invalidate()
-                    }
+                // Subscribe to real-time changes
+                Task {
+                    await supabase.subscribeToMembers(user: user)
+                    await supabase.subscribeToAttendance(user: user)
                 }
+            }
+            .onDisappear {
+                // Unsubscribe when leaving view
+                supabase.unsubscribeAll()
             }
         }
     }

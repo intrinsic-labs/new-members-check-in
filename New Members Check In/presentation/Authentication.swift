@@ -1,5 +1,5 @@
 //
-//  AirtableLoginView.swift
+//  Authentication.swift
 //  New Members Check In
 //
 //  Created by Asher Pope on 1/13/23.
@@ -7,88 +7,92 @@
 
 import SwiftUI
 
-struct AirtableAuthenticationView: View {
-    @EnvironmentObject var user: AirtableUser
-    @EnvironmentObject var airtable: Airtable
-    
-    @State private var localAPIToken = UserDefaults.standard.string(forKey: "localAPIToken")
-    @State private var showingError = false
+struct AuthenticationView: View {
+    @EnvironmentObject var user: AuthUser
+
+    @State private var email = ""
+    @State private var password = ""
     @FocusState private var currentFocus: KeyboardFocus?
-    
-    //    FOR TESTING:
-    //    API Token: REDACTED_AIRTABLE_PAT
-    
+
     var body: some View {
-            VStack(spacing: 30) {
-                Image(systemName: "lock.fill")
-                    .foregroundColor(.white)
-                    .font(.largeTitle)
-                
-                Text("Airtable API Token")
-                    .cccSubtitle(italic: false)
-                    .foregroundColor(.white)
-                
-                SecureField("", text: $user.apiToken)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: 330, maxHeight: 45)
-                    .background(Color(hex: "354959"))
-                    .cornerRadius(10, antialiased: true)
-                    .focused($currentFocus, equals: .apiTokenField)
+        VStack(spacing: 30) {
+            Image(systemName: "lock.fill")
+                .foregroundColor(.white)
+                .font(.largeTitle)
 
-                Text(airtable.errorMessage)
+            Text("Sign In")
+                .cccSubtitle(italic: false)
+                .foregroundColor(.white)
+
+            // Email field
+            TextField("Email", text: $email)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: 330, maxHeight: 45)
+                .background(Color(hex: "354959"))
+                .cornerRadius(10, antialiased: true)
+                .focused($currentFocus, equals: .apiTokenField)
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+
+            // Password field
+            SecureField("Password", text: $password)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.white)
+                .padding()
+                .frame(maxWidth: 330, maxHeight: 45)
+                .background(Color(hex: "354959"))
+                .cornerRadius(10, antialiased: true)
+
+            // Error message
+            if !user.errorMessage.isEmpty {
+                Text(user.errorMessage)
                     .foregroundColor(.orange)
-                    .opacity(showingError ? 1 : 0)
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+            }
 
-                
-                Button("Submit") {
-                    Task {
-                        await authenticateUser()
-                    }
-                }
-                .buttonStyle(.bordered)
-                .tint(.white)
-                
-            }
-            .onSubmit {
-                currentFocus = nil
+            // Sign in button
+            Button(action: {
                 Task {
-                    await authenticateUser()
+                    await signIn()
+                }
+            }) {
+                if user.isLoading {
+                    ProgressView()
+                        .tint(.white)
+                } else {
+                    Text("Sign In")
                 }
             }
-            .padding(.horizontal, 30)
-            .onAppear {
-                if localAPIToken != nil {
-                    user.apiToken = localAPIToken ?? ""
-                    Task {
-                        await airtable.authenticateUser(user)
-                    }
-                }
-            }
-            .onChange(of: user.isAuthenticated) { newValue in
-                if newValue {
-                    withAnimation {
-                        user.isCurrentlyViewing = .nothing
-                    }
-                }
-            }
-        
-    }
-    
-    func authenticateUser() async {
-        Task {
-            await airtable.authenticateUser(user)
-            if !user.isAuthenticated {
-                showingError = true
+            .buttonStyle(.bordered)
+            .tint(.white)
+            .disabled(email.isEmpty || password.isEmpty || user.isLoading)
+
+            Spacer()
+        }
+        .onSubmit {
+            currentFocus = nil
+            Task {
+                await signIn()
             }
         }
+        .padding(.horizontal, 30)
+        .padding(.vertical, 50)
+    }
+
+    private func signIn() async {
+        guard !email.isEmpty && !password.isEmpty else {
+            return
+        }
+
+        await user.signIn(email: email, password: password)
     }
 }
 
-
-
-struct AirtableLoginView_Preview: PreviewProvider {
+struct AuthenticationView_Preview: PreviewProvider {
     static var previews: some View {
         ContentView()
     }

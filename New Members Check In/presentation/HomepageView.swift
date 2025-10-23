@@ -9,10 +9,8 @@
 import SwiftUI
 
 struct HomepageView: View {
-    @EnvironmentObject var user: AirtableUser
-    @EnvironmentObject var airtable: Airtable
-    
-    @State private var flipButtonText = false
+    @EnvironmentObject var user: AuthUser
+
     @StateObject var toast = ToastModel()
     
     var body: some View {
@@ -81,11 +79,22 @@ struct HomepageView: View {
                                 }
                                 .tint(.gray)
                             }
-                            
+
                             Spacer()
-                            
+
                             Text(currentDate.fullFormat)
                                 .foregroundColor(.gray)
+
+                            Spacer()
+
+                            Button(action: {
+                                Task {
+                                    await user.signOut()
+                                }
+                            }) {
+                                Image(systemName: "power.circle.fill")
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
                 }
