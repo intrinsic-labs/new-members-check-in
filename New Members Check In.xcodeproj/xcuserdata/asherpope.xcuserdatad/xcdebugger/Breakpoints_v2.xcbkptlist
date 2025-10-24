@@ -132,5 +132,51 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5E379A8E-FB73-4CE3-9841-18869A050F1C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "New Members Check In/presentation/check in/CheckInView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "loadTodaysAttendance()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5E379A8E-FB73-4CE3-9841-18869A050F1C - 4ad883dcf9740615"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "New_Members_Check_In.CheckInView.loadTodaysAttendance() async -&gt; ()"
+                  moduleName = "New Members Check In.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asherpope/dev/New%20Members%20Check%20In/New%20Members%20Check%20In/presentation/check%20in/CheckInView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204">
+               </Location>
+               <Location
+                  uuid = "5E379A8E-FB73-4CE3-9841-18869A050F1C - 2cdf0fdc5a7b97a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static New_Members_Check_In.CheckInView_Preview.previews.getter : some"
+                  moduleName = "New Members Check In.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/asherpope/dev/New%20Members%20Check%20In/New%20Members%20Check%20In/presentation/check%20in/CheckInView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "205"
+                  endingLineNumber = "205">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

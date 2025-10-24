@@ -111,7 +111,11 @@ class SupabaseService: ObservableObject {
             // When members change, reload the list
             Task { @MainActor in
                 print("📡 Received members update")
+                // just reload members and dates cause if
+                // members change during class, might as
+                // well check for new class dates too
                 await self?.loadMembers(user: user)
+                await self?.loadDates(user: user)
             }
         }
 

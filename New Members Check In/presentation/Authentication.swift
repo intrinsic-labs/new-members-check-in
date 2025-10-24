@@ -15,7 +15,10 @@ struct AuthenticationView: View {
     @FocusState private var currentFocus: KeyboardFocus?
 
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(alignment: .center, spacing: 18) {
+            
+            Spacer()
+            
             Image(systemName: "lock.fill")
                 .foregroundColor(.white)
                 .font(.largeTitle)
@@ -53,6 +56,8 @@ struct AuthenticationView: View {
                     .font(.caption)
                     .multilineTextAlignment(.center)
             }
+            
+            Spacer()
 
             // Sign in button
             Button(action: {
@@ -65,13 +70,18 @@ struct AuthenticationView: View {
                         .tint(.white)
                 } else {
                     Text("Sign In")
+                        .foregroundStyle(
+                            (!email.isEmpty && !password.isEmpty) ?
+                            Color.black : Color.gray
+                            
+                        )
+                        .frame(width: 330, height: 45)
                 }
             }
-            .buttonStyle(.bordered)
-            .tint(.white)
+            .buttonStyle(.borderedProminent)
+            .clipShape(Capsule())
             .disabled(email.isEmpty || password.isEmpty || user.isLoading)
 
-            Spacer()
         }
         .onSubmit {
             currentFocus = nil
