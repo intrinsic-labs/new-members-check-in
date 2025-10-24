@@ -181,6 +181,13 @@ struct CheckInView: View {
                     await loadTodaysAttendance()
                 }
             }
+            .onChange(of: supabase.attendanceDidUpdate) { _ in
+                // Real-time attendance update received, refresh today's check-ins
+                print("🔄 Attendance updated, reloading today's check-ins...")
+                Task {
+                    await loadTodaysAttendance()
+                }
+            }
         }
     }
 
