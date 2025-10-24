@@ -85,16 +85,6 @@ struct HomepageView: View {
                             Text(currentDate.fullFormat)
                                 .foregroundColor(.gray)
 
-                            Spacer()
-
-                            Button(action: {
-                                Task {
-                                    await user.signOut()
-                                }
-                            }) {
-                                Image(systemName: "power.circle.fill")
-                                    .foregroundColor(.gray)
-                            }
                         }
                     }
                 }

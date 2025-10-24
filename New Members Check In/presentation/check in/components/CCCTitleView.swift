@@ -24,12 +24,14 @@ struct CCCTitleView: View {
         if viewStyle == .horizontal {
             VStack {
                 HStack {
-                    Image("CCClogo.white")
+                    Image("CCC_white_square")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 65)
+                    
                     VStack(alignment: .leading, spacing: 3) {
                         Text("NEW MEMBER CLASS")
+                            .multilineTextAlignment(.leading)
                         .cccTitle()
                         if omitTagline == false {
                             Text("Christ Covenant Church")
@@ -48,7 +50,7 @@ struct CCCTitleView: View {
         
         if viewStyle == .vertical {
             VStack(spacing: 20) {
-                Image("CCClogo.white")
+                Image("CCC_white_square")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 100)

@@ -18,6 +18,8 @@ struct CheckInView: View {
     @StateObject var searchbarModel = SearchbarModel()
     @State var toastModel: ToastModel
     @State private var checkedInMemberIds: Set<Int> = []
+    
+    @State private var showLogoutAlert = false
 
     @FocusState private var keyboardFocus: KeyboardFocus?
 
@@ -48,6 +50,7 @@ struct CheckInView: View {
                                 .focused($keyboardFocus, equals: .searchbar)
                                 .onSubmit {
                                     keyboardFocus = nil
+                                    checkForLogout()
                                 }
                             ScrollView {
                                 LazyVStack(spacing: 0) {
@@ -103,9 +106,6 @@ struct CheckInView: View {
                                         }
                                     }
 
-                                    // Reload today's attendance to update the filtered list
-                                    await loadTodaysAttendance()
-
                                     checklist.selectedMembers = []
                                     searchbarModel.searchText = ""
 
@@ -127,6 +127,16 @@ struct CheckInView: View {
                                     title: Text("Error"),
                                     message: Text(errorAlertMessage),
                                     dismissButton: .default(Text("OK"))
+                                )
+                            }
+                            .alert(isPresented: $showLogoutAlert) {
+                                Alert(
+                                    title: Text("Log out?"),
+                                    message: Text("You will have to sign in again to use the app."),
+                                    primaryButton: .destructive(Text("Log Out")) {
+                                        Task { await user.signOut() }
+                                    },
+                                    secondaryButton: .cancel()
                                 )
                             }
 
@@ -199,6 +209,12 @@ struct CheckInView: View {
 
         checkedInMemberIds = await supabase.getAttendanceForDate(dateId: todayDate.id)
         print("📋 Today's attendance: \(checkedInMemberIds.count) members checked in")
+    }
+    
+    func checkForLogout() {
+        if self.searchbarModel.searchText == "/logout" {
+            self.showLogoutAlert.toggle()
+        }
     }
 }
 
