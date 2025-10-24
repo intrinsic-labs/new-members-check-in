@@ -6,6 +6,7 @@ class SupabaseService: ObservableObject {
     @Published var listOfAllMembers: [Member] = []
     @Published var listOfAllDates: [AttendanceDate] = []
     @Published var errorMessage: String = ""
+    @Published var attendanceDidUpdate: Bool = false
 
     private let supabase = SupabaseConfig.shared.client
     private var membersSubscription: RealtimeSubscription?
@@ -130,18 +131,17 @@ class SupabaseService: ObservableObject {
             AnyAction.self,
             schema: "public",
             table: "attendance"
-        ) { [weak self] _ in
-            // When attendance changes, reload both members and dates
+        ) { [weak self] change in
+            // When attendance changes, signal that cache is out of date
             Task { @MainActor in
-                print("📡 Received attendance update")
-                await self?.loadMembers(user: user)
-                await self?.loadDates(user: user)
+                print("📡 Received attendance update: \(change.rawMessage.event)")
+                self?.attendanceDidUpdate.toggle()
             }
         }
 
         do {
             try await channel.subscribeWithError()
-            print("🔄 Subscribed to attendance changes")
+            print("🔄 Subscribed to attendance changes on table 'attendance'")
         } catch {
             print("❌ Error subscribing to attendance: \(error)")
         }
