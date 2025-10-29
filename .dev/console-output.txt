@@ -5,124 +5,81 @@ Network connection established
 ✅ Fetched 101 members from Supabase
 ✅ Repository: Loaded 101 members
 ✅ ViewModel: Members loaded
+✅ Fetched 12 dates from Supabase
+✅ Repository: Loaded 12 dates
+✅ ViewModel: Dates loaded
 🔄 Subscribed to members table changes
 🔄 Subscribed to attendance table changes
 ✅ Realtime sync started successfully
 🔄 ViewModel: Started realtime sync
-✅ Fetched 12 dates from Supabase
-✅ Repository: Loaded 12 dates
-✅ ViewModel: Dates loaded
-📅 ViewModel: Dates changed, reloading attendance...
-✅ Repository: Fetched attendance for date 15 - 18 members
-📋 ViewModel: Today's attendance - 18 members checked in
-✅ Repository: Fetched attendance for date 15 - 18 members
-📋 ViewModel: Today's attendance - 18 members checked in
-✅ Inserted attendance: member 15, date 15
-✅ Repository: Checked in member 15 for date 15
-✅ Repository: Fetched attendance for date 15 - 19 members
-📋 ViewModel: Today's attendance - 19 members checked in
-✅ ViewModel: Successfully checked in 1 members!
-✅ Inserted attendance: member 16, date 15
-✅ Repository: Checked in member 16 for date 15
-✅ Inserted attendance: member 87, date 15
-✅ Repository: Checked in member 87 for date 15
-✅ Repository: Fetched attendance for date 15 - 21 members
-📋 ViewModel: Today's attendance - 21 members checked in
-✅ ViewModel: Successfully checked in 2 members!
-🛑 Stopping realtime sync...
-⏸️ ViewModel: Stopped realtime sync
-✅ Realtime sync stopped
-✅ Loaded 12 dates
-✅ Loaded 101 members
-📊 For date ID 1: 91 checked in, 10 missing
-Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
-📊 For date ID 15: 21 checked in, 80 missing
-🏗️ CheckInViewModel initialized
-🚀 Starting realtime sync...
-🔄 Subscribed to members table changes
-✅ Fetched 101 members from Supabase
-✅ Repository: Loaded 101 members
-✅ ViewModel: Members loaded
-🔄 Subscribed to attendance table changes
-✅ Realtime sync started successfully
-🔄 ViewModel: Started realtime sync
-✅ Fetched 12 dates from Supabase
-✅ Repository: Loaded 12 dates
-✅ ViewModel: Dates loaded
-✅ Repository: Fetched attendance for date 15 - 21 members
-📋 ViewModel: Today's attendance - 21 members checked in
-✅ Repository: Fetched attendance for date 15 - 21 members
-📋 ViewModel: Today's attendance - 21 members checked in
-<0x1141d9540> Gesture: System gesture gate timed out.
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+✅ Repository: Fetched attendance for date 15 - 30 members
+📋 ViewModel: Today's attendance - 30 members checked in
 Network connection established
-Reporter disconnected or already stopped. { func=stop, reporterID=218738389417986 }
-✅ Inserted attendance: member 18, date 15
-✅ Repository: Checked in member 18 for date 15
-✅ Inserted attendance: member 19, date 15
-✅ Repository: Checked in member 19 for date 15
-✅ Repository: Fetched attendance for date 15 - 23 members
-📋 ViewModel: Today's attendance - 23 members checked in
+quic_conn_keepalive_handler [C2.1.1.1:2] [-015f15d58e498620d65eeed5fb49b918a4e6636e] keep-alive timer fired, exceeding 2 outstanding keep-alives
+nw_read_request_report [C2] Receive failed with error "Operation timed out"
+nw_read_request_report [C2] Receive failed with error "Operation timed out"
+nw_read_request_report [C2] Receive failed with error "Operation timed out"
+nw_read_request_report [C2] Receive failed with error "Operation timed out"
+nw_read_request_report [C2] Receive failed with error "Operation timed out"
+0x11853f018 2 stalled, attempting fallback
+Task <628BF694-63BB-4DFD-A585-99042010702A>.<4> HTTP load failed, 1006/0 bytes (error code: -1005 [4:-4])
+Task <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5> HTTP load failed, 1006/0 bytes (error code: -1005 [4:-4])
+Task <628BF694-63BB-4DFD-A585-99042010702A>.<4> finished with error [-1005] Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10e1b8f30 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+Task <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5> finished with error [-1005] Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10b313d80 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+❌ Repository: Failed to check in member 17 - Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10e1b8f30 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+❌ ViewModel: Failed to check in member Owen Garvey - Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10e1b8f30 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <628BF694-63BB-4DFD-A585-99042010702A>.<4>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+❌ Repository: Failed to check in member 17 - Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10b313d80 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+❌ ViewModel: Failed to check in member Owen Garvey - Error Domain=NSURLErrorDomain Code=-1005 "The network connection was lost." UserInfo={_kCFStreamErrorCodeKey=-4, NSUnderlyingError=0x10b313d80 {Error Domain=kCFErrorDomainCFNetwork Code=-1005 "(null)" UserInfo={NSErrorPeerAddressKey=<CFData 0x1184a19f0 [0x206be80c8]>{length = 16, capacity = 16, bytes = 0x100201bb6812260a0000000000000000}, _kCFStreamErrorCodeKey=-4, _kCFStreamErrorDomainKey=4}}, _NSURLErrorFailingURLSessionTaskErrorKey=LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>, _NSURLErrorRelatedURLSessionTaskErrorKey=(
+    "LocalDataTask <23D5E377-6FE1-44F8-90C8-7E4A6C1BA4DE>.<5>"
+), NSLocalizedDescription=The network connection was lost., NSErrorFailingURLStringKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, NSErrorFailingURLKey=https://xfpynuflzqllxqzecazt.supabase.co/rest/v1/attendance, _kCFStreamErrorDomainKey=4}
+✅ Inserted attendance: member 17, date 15
+✅ Repository: Checked in member 17 for date 15
+✅ Inserted attendance: member 20, date 15
+✅ Repository: Checked in member 20 for date 15
+✅ Repository: Fetched attendance for date 15 - 32 members
+📋 ViewModel: Today's attendance - 32 members checked in
 ✅ ViewModel: Successfully checked in 2 members!
-✅ Inserted attendance: member 30, date 15
-✅ Repository: Checked in member 30 for date 15
-✅ Inserted attendance: member 29, date 15
-✅ Repository: Checked in member 29 for date 15
-✅ Inserted attendance: member 28, date 15
-✅ Repository: Checked in member 28 for date 15
-✅ Inserted attendance: member 27, date 15
-✅ Repository: Checked in member 27 for date 15
-✅ Inserted attendance: member 32, date 15
-✅ Repository: Checked in member 32 for date 15
-✅ Inserted attendance: member 31, date 15
-✅ Repository: Checked in member 31 for date 15
-✅ Repository: Fetched attendance for date 15 - 29 members
-📋 ViewModel: Today's attendance - 29 members checked in
-✅ ViewModel: Successfully checked in 6 members!
--[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = <null selector>, customInfoType = UIEmojiSearchOperations
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
-Reporter disconnected or already stopped. { func=stop, reporterID=218738389417987 }
-✅ Inserted attendance: member 69, date 15
-✅ Repository: Checked in member 69 for date 15
-✅ Repository: Fetched attendance for date 15 - 30 members
-📋 ViewModel: Today's attendance - 30 members checked in
-✅ ViewModel: Successfully checked in 1 members!
+✅ Inserted attendance: member 21, date 15
+✅ Repository: Checked in member 21 for date 15
+✅ Inserted attendance: member 95, date 15
+✅ Repository: Checked in member 95 for date 15
+✅ Repository: Fetched attendance for date 15 - 34 members
+📋 ViewModel: Today's attendance - 34 members checked in
+✅ ViewModel: Successfully checked in 2 members!
 🛑 Stopping realtime sync...
 ⏸️ ViewModel: Stopped realtime sync
 ✅ Realtime sync stopped
 ✅ Loaded 12 dates
 ✅ Loaded 101 members
 📊 For date ID 1: 91 checked in, 10 missing
-Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
-📊 For date ID 10: 0 checked in, 101 missing
-📊 For date ID 15: 30 checked in, 71 missing
 🏗️ CheckInViewModel initialized
 🚀 Starting realtime sync...
+🔄 Subscribed to members table changes
 ✅ Fetched 101 members from Supabase
 ✅ Repository: Loaded 101 members
 ✅ ViewModel: Members loaded
-🔄 Subscribed to members table changes
-✅ Fetched 12 dates from Supabase
-✅ Repository: Loaded 12 dates
-✅ ViewModel: Dates loaded
 🔄 Subscribed to attendance table changes
 ✅ Realtime sync started successfully
 🔄 ViewModel: Started realtime sync
-✅ Repository: Fetched attendance for date 15 - 30 members
-📋 ViewModel: Today's attendance - 30 members checked in
-✅ Repository: Fetched attendance for date 15 - 30 members
-📋 ViewModel: Today's attendance - 30 members checked in
+✅ Fetched 12 dates from Supabase
+✅ Repository: Loaded 12 dates
+✅ ViewModel: Dates loaded
+✅ Repository: Fetched attendance for date 15 - 34 members
+📋 ViewModel: Today's attendance - 34 members checked in
+✅ Inserted attendance: member 98, date 15
+✅ Repository: Checked in member 98 for date 15
+✅ Inserted attendance: member 24, date 15
+✅ Repository: Checked in member 24 for date 15
+✅ Repository: Fetched attendance for date 15 - 36 members
+📋 ViewModel: Today's attendance - 36 members checked in
+✅ ViewModel: Successfully checked in 2 members!

@@ -166,27 +166,56 @@ class CheckInViewModel: ObservableObject {
             return
         }
 
-        // Check in each selected member
+        // Check in each selected member, tracking successes and failures
         let countToCheckIn = selectedMembers.count
+        var successfulMembers: [Member] = []
+        var failedMembers: [Member] = []
+
         for memberRecord in selectedMembers {
             do {
                 try await repository.checkInMember(memberId: memberRecord.id, dateId: todayDate.id)
+                successfulMembers.append(memberRecord)
+                print("✅ ViewModel: Checked in \(memberRecord.fullName)")
             } catch {
+                failedMembers.append(memberRecord)
                 print("❌ ViewModel: Failed to check in member \(memberRecord.fullName) - \(error)")
-                errorAlertMessage = "Failed to check in one or more members."
-                showingErrorAlert = true
-                return
             }
         }
 
-        // Clear selection and search on success
-        selectedMembers = []
-        searchText = ""
-
-        // Reload today's attendance to update the UI immediately
+        // Always reload attendance (even if some failed) to show any successful check-ins
         await loadTodaysAttendance()
 
-        print("✅ ViewModel: Successfully checked in \(countToCheckIn) members!")
+        // Remove only successfully checked-in members from selection
+        for successMember in successfulMembers {
+            selectedMembers.removeAll { $0.id == successMember.id }
+        }
+
+        // Clear search only if all members were successful
+        if failedMembers.isEmpty {
+            searchText = ""
+        }
+
+        // Show appropriate message based on results
+        if failedMembers.isEmpty {
+            // Complete success
+            print("✅ ViewModel: Successfully checked in \(countToCheckIn) members!")
+        } else if successfulMembers.isEmpty {
+            // Complete failure
+            let memberNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
+            errorAlertMessage =
+                "Failed to check in: \(memberNames). Please check your internet connection and try again."
+            showingErrorAlert = true
+            print("❌ ViewModel: All check-ins failed (\(failedMembers.count) members)")
+        } else {
+            // Partial success
+            let failedNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
+            errorAlertMessage =
+                "Successfully checked in \(successfulMembers.count) member(s), but failed for: \(failedNames). Please try again."
+            showingErrorAlert = true
+            print(
+                "⚠️ ViewModel: Partial success - \(successfulMembers.count) succeeded, \(failedMembers.count) failed"
+            )
+        }
     }
 
     /// Check if the search text is the logout command and trigger alert if so
