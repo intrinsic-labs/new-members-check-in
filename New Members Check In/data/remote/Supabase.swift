@@ -1,6 +1,9 @@
 import Foundation
 import Supabase
 
+// Domain models are now in domain/models/
+// (No import needed - same module/target)
+
 @MainActor
 class SupabaseService: ObservableObject {
     @Published var listOfAllMembers: [Member] = []
@@ -17,7 +20,8 @@ class SupabaseService: ObservableObject {
     /// Fetch all members from Supabase, ordered by last name
     func loadMembers(user: AuthUser) async {
         do {
-            let response = try await supabase
+            let response =
+                try await supabase
                 .from("members")
                 .select("*")
                 .order("last_name", ascending: true)
@@ -36,14 +40,16 @@ class SupabaseService: ObservableObject {
     /// Fetch all dates from Supabase, ordered by date descending
     func loadDates(user: AuthUser) async {
         do {
-            let response = try await supabase
+            let response =
+                try await supabase
                 .from("dates")
                 .select("*")
                 .order("class_date", ascending: false)
                 .execute()
 
             let decoder = JSONDecoder()
-            let dates: [AttendanceDate] = try decoder.decode(Array<AttendanceDate>.self, from: response.data)
+            let dates: [AttendanceDate] = try decoder.decode(
+                Array<AttendanceDate>.self, from: response.data)
             self.listOfAllDates = dates
             print("✅ Loaded \(dates.count) dates")
         } catch {
@@ -57,14 +63,16 @@ class SupabaseService: ObservableObject {
     /// Fetch attendance records for a specific date
     func getAttendanceForDate(dateId: Int) async -> Set<Int> {
         do {
-            let response = try await supabase
+            let response =
+                try await supabase
                 .from("attendance")
                 .select("member_id")
                 .eq("date_id", value: dateId)
                 .execute()
 
             let decoder = JSONDecoder()
-            let records: [AttendanceRecord] = try decoder.decode(Array<AttendanceRecord>.self, from: response.data)
+            let records: [AttendanceRecord] = try decoder.decode(
+                Array<AttendanceRecord>.self, from: response.data)
             return Set(records.map { $0.memberId })
         } catch {
             print("Error fetching attendance for date: \(error)")
@@ -85,9 +93,11 @@ class SupabaseService: ObservableObject {
             return true
         } catch {
             // Check if it's a unique constraint error (duplicate check-in)
-            if error.localizedDescription.contains("23505") || error.localizedDescription.contains("duplicate") {
+            if error.localizedDescription.contains("23505")
+                || error.localizedDescription.contains("duplicate")
+            {
                 print("⚠️ Member already checked in for this date")
-                return true // Treat as success (already checked in)
+                return true  // Treat as success (already checked in)
             }
 
             await handleError("Failed to check in member: \(error)")
@@ -168,49 +178,4 @@ class SupabaseService: ObservableObject {
 }
 
 // MARK: - Data Models
-
-struct Member: Identifiable, Codable, Equatable {
-    let id: Int
-    let firstName: String
-    let lastName: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case firstName = "first_name"
-        case lastName = "last_name"
-    }
-
-    var fullName: String {
-        "\(firstName) \(lastName)"
-    }
-}
-
-struct AttendanceDate: Identifiable, Codable, Hashable {
-    let id: Int
-    let classDate: String  // Keep as String since it's date-only: "2025-11-02"
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case classDate = "class_date"
-    }
-}
-
-struct Attendance: Identifiable, Codable {
-    let id: Int
-    let memberId: Int
-    let dateId: Int
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case memberId = "member_id"
-        case dateId = "date_id"
-    }
-}
-
-struct AttendanceRecord: Codable {
-    let memberId: Int
-
-    enum CodingKeys: String, CodingKey {
-        case memberId = "member_id"
-    }
-}
+// Models have been moved to domain/models/
