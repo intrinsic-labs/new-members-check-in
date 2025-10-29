@@ -9,12 +9,12 @@
 
 - [x] Phase 1: Extract Domain Models
 - [x] Phase 2: Create Repository Layer
-- [ ] Phase 3: Build CheckInViewModel
+- [x] Phase 3: Build CheckInViewModel
 - [ ] Phase 4: Refactor Authentication
 - [ ] Phase 5: Update Other Views
 - [ ] Phase 6: Cleanup
 
-**Estimated Completion:** 33% (2/6 phases)
+**Estimated Completion:** 50% (3/6 phases)
 
 ---
 
@@ -64,18 +64,18 @@
 
 ---
 
-## ⏸️ Phase 3: Build CheckInViewModel
+## ✅ Phase 3: Build CheckInViewModel
 
-**Status:** 🔴 NOT STARTED
+**Status:** ✅ COMPLETED
 
 **Tasks:**
-- [ ] Create `CheckInViewModel.swift`
-- [ ] Move all @State properties from view to viewModel
-- [ ] Move business logic methods to viewModel
-- [ ] Move computed properties to viewModel
-- [ ] Inject repository into viewModel
-- [ ] Refactor CheckInView to use viewModel
-- [ ] Remove direct Supabase calls from view
+- [x] Create `CheckInViewModel.swift`
+- [x] Move all @State properties from view to viewModel
+- [x] Move business logic methods to viewModel
+- [x] Move computed properties to viewModel
+- [x] Inject repository into viewModel
+- [x] Refactor CheckInView to use viewModel
+- [x] Remove direct Supabase calls from view
 - [ ] Test check-in flow works end-to-end
 - [ ] Verify realtime updates still work
 - [ ] Test search functionality
@@ -204,13 +204,46 @@
   - Repository is ready to be injected into views
   - Next step: Create CheckInViewModel and migrate CheckInView to use repository
 
-### Session 3 (Next)
-- **Goal**: Complete Phase 3 - Build CheckInViewModel
-- **Important Context for Phase 3**:
-  - Repository layer is complete and tested (AttendanceRepository.shared)
-  - CheckInView currently has 220+ lines with mixed concerns
-  - Need to extract all @State properties into ViewModel
-  - Move business logic (filtering, date matching, check-in flow) to ViewModel
-  - CheckInView should become pure SwiftUI (60-80 lines)
-  - Inject repository into ViewModel
-  - Remove direct SupabaseService usage from view
+### Session 3 (COMPLETED)
+- ✅ COMPLETED Phase 3 - Build CheckInViewModel
+- **What was accomplished**:
+  - Created `CheckInViewModel.swift` with full business logic extraction
+  - ViewModel manages all state: searchText, selectedMembers, checkedInMemberIds, error alerts, logout alerts
+  - Absorbed ChecklistModel functionality directly into ViewModel (cleaner architecture)
+  - All computed properties moved to ViewModel: todayDate, uncheckedMembers, filteredMembers, allMembersCheckedIn, isLoading, statusText
+  - All business logic methods in ViewModel: loadData(), performCheckIn(), toggleMemberSelection(), loadTodaysAttendance(), etc.
+  - CheckInView refactored from ~223 lines to ~182 lines (and much cleaner separation)
+  - View now purely renders UI based on ViewModel state
+  - Removed @StateObject supabase = SupabaseService() - now uses repository through ViewModel
+  - Repository injected into ViewModel (defaults to AttendanceRepository.shared)
+  - Kept toastModel and keyboardFocus in view (UI concerns)
+  - SearchbarModel kept separate but synced with ViewModel searchText via onChange
+  - Created reusable MemberChecklistRow component to replace ChecklistViewNew
+  - No compilation errors
+- **Architecture improvements**:
+  - Clean MVVM pattern implemented
+  - View observes ViewModel via @Published properties
+  - ViewModel observes Repository via @Published properties
+  - One-way data flow: Repository → ViewModel → View
+  - Testability: Can now mock AttendanceRepositoryProtocol for unit tests
+- **User needs to test**:
+  - Check-in flow (select members, tap CHECK IN button)
+  - Realtime updates (check in from another device)
+  - Search functionality
+  - Member selection/deselection
+  - Error handling (no class date, too many selections, etc.)
+  - Toast notification on successful check-in
+  - /logout command still works
+
+### Session 4 (Next)
+- **Goal**: Test Phase 3 changes, then decide on Phase 4 (Authentication) or Phase 5 (Other Views)
+- **Testing checklist for Phase 3**:
+  - [ ] App launches without errors
+  - [ ] Members load and display correctly
+  - [ ] Search filters members as expected
+  - [ ] Can select/deselect members
+  - [ ] Check-in button works and shows toast
+  - [ ] Error alerts appear for invalid selections
+  - [ ] Realtime updates refresh the list
+  - [ ] /logout command triggers alert
+  - [ ] All members checked in shows proper message

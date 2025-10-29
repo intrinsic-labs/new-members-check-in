@@ -1,0 +1,128 @@
+Network connection established
+🏗️ AttendanceRepository initialized
+🏗️ CheckInViewModel initialized
+🚀 Starting realtime sync...
+✅ Fetched 101 members from Supabase
+✅ Repository: Loaded 101 members
+✅ ViewModel: Members loaded
+🔄 Subscribed to members table changes
+🔄 Subscribed to attendance table changes
+✅ Realtime sync started successfully
+🔄 ViewModel: Started realtime sync
+✅ Fetched 12 dates from Supabase
+✅ Repository: Loaded 12 dates
+✅ ViewModel: Dates loaded
+📅 ViewModel: Dates changed, reloading attendance...
+✅ Repository: Fetched attendance for date 15 - 18 members
+📋 ViewModel: Today's attendance - 18 members checked in
+✅ Repository: Fetched attendance for date 15 - 18 members
+📋 ViewModel: Today's attendance - 18 members checked in
+✅ Inserted attendance: member 15, date 15
+✅ Repository: Checked in member 15 for date 15
+✅ Repository: Fetched attendance for date 15 - 19 members
+📋 ViewModel: Today's attendance - 19 members checked in
+✅ ViewModel: Successfully checked in 1 members!
+✅ Inserted attendance: member 16, date 15
+✅ Repository: Checked in member 16 for date 15
+✅ Inserted attendance: member 87, date 15
+✅ Repository: Checked in member 87 for date 15
+✅ Repository: Fetched attendance for date 15 - 21 members
+📋 ViewModel: Today's attendance - 21 members checked in
+✅ ViewModel: Successfully checked in 2 members!
+🛑 Stopping realtime sync...
+⏸️ ViewModel: Stopped realtime sync
+✅ Realtime sync stopped
+✅ Loaded 12 dates
+✅ Loaded 101 members
+📊 For date ID 1: 91 checked in, 10 missing
+Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
+📊 For date ID 15: 21 checked in, 80 missing
+🏗️ CheckInViewModel initialized
+🚀 Starting realtime sync...
+🔄 Subscribed to members table changes
+✅ Fetched 101 members from Supabase
+✅ Repository: Loaded 101 members
+✅ ViewModel: Members loaded
+🔄 Subscribed to attendance table changes
+✅ Realtime sync started successfully
+🔄 ViewModel: Started realtime sync
+✅ Fetched 12 dates from Supabase
+✅ Repository: Loaded 12 dates
+✅ ViewModel: Dates loaded
+✅ Repository: Fetched attendance for date 15 - 21 members
+📋 ViewModel: Today's attendance - 21 members checked in
+✅ Repository: Fetched attendance for date 15 - 21 members
+📋 ViewModel: Today's attendance - 21 members checked in
+<0x1141d9540> Gesture: System gesture gate timed out.
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417986 }
+Network connection established
+Reporter disconnected or already stopped. { func=stop, reporterID=218738389417986 }
+✅ Inserted attendance: member 18, date 15
+✅ Repository: Checked in member 18 for date 15
+✅ Inserted attendance: member 19, date 15
+✅ Repository: Checked in member 19 for date 15
+✅ Repository: Fetched attendance for date 15 - 23 members
+📋 ViewModel: Today's attendance - 23 members checked in
+✅ ViewModel: Successfully checked in 2 members!
+✅ Inserted attendance: member 30, date 15
+✅ Repository: Checked in member 30 for date 15
+✅ Inserted attendance: member 29, date 15
+✅ Repository: Checked in member 29 for date 15
+✅ Inserted attendance: member 28, date 15
+✅ Repository: Checked in member 28 for date 15
+✅ Inserted attendance: member 27, date 15
+✅ Repository: Checked in member 27 for date 15
+✅ Inserted attendance: member 32, date 15
+✅ Repository: Checked in member 32 for date 15
+✅ Inserted attendance: member 31, date 15
+✅ Repository: Checked in member 31 for date 15
+✅ Repository: Fetched attendance for date 15 - 29 members
+📋 ViewModel: Today's attendance - 29 members checked in
+✅ ViewModel: Successfully checked in 6 members!
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = <null selector>, customInfoType = UIEmojiSearchOperations
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected. { function=sendMessage, reporterID=218738389417987 }
+Reporter disconnected or already stopped. { func=stop, reporterID=218738389417987 }
+✅ Inserted attendance: member 69, date 15
+✅ Repository: Checked in member 69 for date 15
+✅ Repository: Fetched attendance for date 15 - 30 members
+📋 ViewModel: Today's attendance - 30 members checked in
+✅ ViewModel: Successfully checked in 1 members!
+🛑 Stopping realtime sync...
+⏸️ ViewModel: Stopped realtime sync
+✅ Realtime sync stopped
+✅ Loaded 12 dates
+✅ Loaded 101 members
+📊 For date ID 1: 91 checked in, 10 missing
+Called -[UIContextMenuInteraction updateVisibleMenuWithBlock:] while no context menu is visible. This won't do anything.
+📊 For date ID 10: 0 checked in, 101 missing
+📊 For date ID 15: 30 checked in, 71 missing
+🏗️ CheckInViewModel initialized
+🚀 Starting realtime sync...
+✅ Fetched 101 members from Supabase
+✅ Repository: Loaded 101 members
+✅ ViewModel: Members loaded
+🔄 Subscribed to members table changes
+✅ Fetched 12 dates from Supabase
+✅ Repository: Loaded 12 dates
+✅ ViewModel: Dates loaded
+🔄 Subscribed to attendance table changes
+✅ Realtime sync started successfully
+🔄 ViewModel: Started realtime sync
+✅ Repository: Fetched attendance for date 15 - 30 members
+📋 ViewModel: Today's attendance - 30 members checked in
+✅ Repository: Fetched attendance for date 15 - 30 members
+📋 ViewModel: Today's attendance - 30 members checked in
