@@ -16,6 +16,7 @@ struct CheckInView: View {
 
     @State var toastModel: ToastModel
     @FocusState private var keyboardFocus: KeyboardFocus?
+    @State private var isInitialLoad = true
 
     var body: some View {
         NavigationStack {
@@ -67,16 +68,14 @@ struct CheckInView: View {
                             Task {
                                 await viewModel.performCheckIn()
 
-                                // Show toast on success if no errors
+                                // Show toast on complete success (no errors, all members checked in)
                                 if !viewModel.showingErrorAlert && viewModel.selectedMembers.isEmpty
                                 {
                                     withAnimation {
                                         toastModel.isPresented.toggle()
                                     }
                                 }
-
-                                // Clear search after successful check-in
-                                searchbarModel.searchText = ""
+                                // Note: Search clearing is handled by ViewModel (synced via onChange)
                             }
                         }) {
                             Text("CHECK IN")
@@ -120,7 +119,6 @@ struct CheckInView: View {
                 // Start realtime sync
                 Task {
                     await viewModel.startRealtimeSync()
-                    await viewModel.loadTodaysAttendance()
                 }
             }
             .onDisappear {
@@ -138,7 +136,12 @@ struct CheckInView: View {
                 }
             }
             .onChange(of: repository.dates) { _ in
-                // Reload attendance when dates change
+                // Skip reload on initial load (already loaded in loadData)
+                guard !isInitialLoad else {
+                    isInitialLoad = false
+                    return
+                }
+                // Reload attendance when dates change after initial load
                 viewModel.handleDatesChanged()
             }
             .onChange(of: repository.attendanceDidUpdate) { _ in
