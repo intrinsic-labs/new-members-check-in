@@ -104,7 +104,10 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
                 Task { @MainActor in
                     guard let self = self else { return }
                     // Toggle the flag to signal views to refresh attendance
+                    print("🔔 Repository: Attendance realtime update received!")
                     self.attendanceDidUpdate.toggle()
+                    print(
+                        "🔔 Repository: attendanceDidUpdate toggled to \(self.attendanceDidUpdate)")
                 }
             }
 

@@ -3,221 +3,195 @@
 //  New Members Check In
 //
 //  Created by Asher Pope on 1/13/23.
+//  Refactored: Phase 3 - MVVM Architecture
 //
-
 
 import SwiftUI
 
 struct CheckInView: View {
     @EnvironmentObject var user: AuthUser
-    @StateObject var supabase = SupabaseService()
+    @StateObject private var viewModel = CheckInViewModel()
+    @StateObject private var searchbarModel = SearchbarModel()
+    @ObservedObject private var repository = AttendanceRepository.shared
 
-    @StateObject var checklist = ChecklistModel()
-    @State private var showingErrorAlert = false
-    @State private var errorAlertMessage = ""
-    @StateObject var searchbarModel = SearchbarModel()
     @State var toastModel: ToastModel
-    @State private var checkedInMemberIds: Set<Int> = []
-    
-    @State private var showLogoutAlert = false
-
     @FocusState private var keyboardFocus: KeyboardFocus?
 
-    /// Find today's date record in Supabase
-    func todayDateRecord() -> AttendanceDate? {
-        let today = currentDate.isoFormat
-        let dateRecord = supabase.listOfAllDates.first(where: { date in
-            date.classDate == today
-        })
-        print("Checking date: \(today) (today) vs \(dateRecord?.classDate ?? "nil")")
-        return dateRecord
-    }
-
-    /// Create a list of members who have not checked in today
-    var listOfUncheckedMembers: [Member] {
-        supabase.listOfAllMembers.filter { member in
-            !checkedInMemberIds.contains(member.id)
-        }
-    }
-    
     var body: some View {
         NavigationStack {
             VStack(spacing: 10) {
-                if !supabase.listOfAllDates.isEmpty {
-                    if !listOfUncheckedMembers.isEmpty {
-                        VStack(spacing: 20) {
-                            Searchbar(searchModel: searchbarModel)
-                                .focused($keyboardFocus, equals: .searchbar)
-                                .onSubmit {
-                                    keyboardFocus = nil
-                                    checkForLogout()
-                                }
-                            ScrollView {
-                                LazyVStack(spacing: 0) {
-                                    ForEach(listOfUncheckedMembers, id: \.id) { member in
-                                        // If there is a search:
-                                        if searchbarModel.searchText != "" {
-                                            if member.fullName.lowercased().contains(searchbarModel.searchText.lowercased()) {
-                                                ChecklistViewNew(member: member, checklist: checklist)
-                                            }
-                                        // If there isn't a search, load all unchecked members
-                                        } else {
-                                            ChecklistViewNew(member: member, checklist: checklist)
+                if viewModel.isLoading {
+                    // Loading state
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                } else if viewModel.allMembersCheckedIn {
+                    // All members checked in
+                    Spacer()
+                    Text("All members have checked in for \(currentDate.fullFormat).")
+                        .foregroundColor(.white)
+                        .font(.title3)
+                    Spacer()
+                } else {
+                    // Main check-in interface
+                    VStack(spacing: 20) {
+                        // Search bar
+                        Searchbar(searchModel: searchbarModel)
+                            .focused($keyboardFocus, equals: .searchbar)
+                            .onSubmit {
+                                keyboardFocus = nil
+                                viewModel.checkForLogoutCommand()
+                            }
+
+                        // Members list
+                        ScrollView {
+                            LazyVStack(spacing: 0) {
+                                ForEach(viewModel.filteredMembers, id: \.id) { member in
+                                    MemberChecklistRow(
+                                        member: member,
+                                        isSelected: viewModel.isMemberSelected(member),
+                                        onTap: {
+                                            viewModel.toggleMemberSelection(member)
                                         }
-                                    }.animation(.default, value: listOfUncheckedMembers)
+                                    )
                                 }
                             }
-                            .background(Color(hex: "354959"))
-                            .cornerRadius(10, antialiased: true)
+                            .animation(.default, value: viewModel.filteredMembers.count)
+                        }
+                        .background(Color(hex: "354959"))
+                        .cornerRadius(10, antialiased: true)
 
-                            Button(action: {
-                                keyboardFocus = nil
-                                Task {
-                                    // Ensure selection is valid
-                                    if checklist.selectedMembers.count > 10 {
-                                        errorAlertMessage = "You cannot check more than 10 people in at once."
-                                        showingErrorAlert = true
-                                        return
-                                    } else if checklist.selectedMembers.count == 0 {
-                                        errorAlertMessage = "You haven't made any selection."
-                                        showingErrorAlert = true
-                                        return
-                                    }
+                        // Check-in button
+                        Button(action: {
+                            keyboardFocus = nil
+                            Task {
+                                await viewModel.performCheckIn()
 
-                                    // Make sure there is a date record for today
-                                    guard let todayDate = todayDateRecord() else {
-                                        errorAlertMessage = "There is no class scheduled for today."
-                                        showingErrorAlert = true
-                                        return
-                                    }
-
-                                    // Check in each selected member
-                                    let countCheckedIn = checklist.selectedMembers.count
-                                    for memberRecord in checklist.selectedMembers {
-                                        let success = await supabase.updateAttendance(
-                                            memberId: memberRecord.id,
-                                            dateId: todayDate.id,
-                                            user: user
-                                        )
-                                        if !success {
-                                            errorAlertMessage = "Failed to check in one or more members."
-                                            showingErrorAlert = true
-                                            return
-                                        }
-                                    }
-
-                                    checklist.selectedMembers = []
-                                    searchbarModel.searchText = ""
-
-                                    print("✅ Successfully checked in \(countCheckedIn) members!")
+                                // Show toast on success if no errors
+                                if !viewModel.showingErrorAlert && viewModel.selectedMembers.isEmpty
+                                {
                                     withAnimation {
                                         toastModel.isPresented.toggle()
                                     }
                                 }
-                            }) {
-                                Text("CHECK IN")
-                                    .foregroundColor(Color(hex: "1C3040"))
-                                    .cccBody(fontSize: 25)
-                                    .frame(maxWidth: .infinity, maxHeight: 60)
-                                    .background(.white)
-                                    .cornerRadius(10, antialiased: true)
-                            }
-                            .alert(isPresented: $showingErrorAlert) {
-                                Alert(
-                                    title: Text("Error"),
-                                    message: Text(errorAlertMessage),
-                                    dismissButton: .default(Text("OK"))
-                                )
-                            }
-                            .alert(isPresented: $showLogoutAlert) {
-                                Alert(
-                                    title: Text("Log out?"),
-                                    message: Text("You will have to sign in again to use the app."),
-                                    primaryButton: .destructive(Text("Log Out")) {
-                                        Task { await user.signOut() }
-                                    },
-                                    secondaryButton: .cancel()
-                                )
-                            }
 
-                            // Status text
-                            Text(
-                                checklist.selectedMembers.count == 0 ?
-                                "Select a name to check them in." :
-                                    "Check in \(checklist.selectedMembers.count) member\(checklist.selectedMembers.count == 1 ? "" : "s")"
+                                // Clear search after successful check-in
+                                searchbarModel.searchText = ""
+                            }
+                        }) {
+                            Text("CHECK IN")
+                                .foregroundColor(Color(hex: "1C3040"))
+                                .cccBody(fontSize: 25)
+                                .frame(maxWidth: .infinity, maxHeight: 60)
+                                .background(.white)
+                                .cornerRadius(10, antialiased: true)
+                        }
+                        .alert(isPresented: $viewModel.showingErrorAlert) {
+                            Alert(
+                                title: Text("Error"),
+                                message: Text(viewModel.errorAlertMessage),
+                                dismissButton: .default(Text("OK"))
                             )
+                        }
+                        .alert(isPresented: $viewModel.showLogoutAlert) {
+                            Alert(
+                                title: Text("Log out?"),
+                                message: Text("You will have to sign in again to use the app."),
+                                primaryButton: .destructive(Text("Log Out")) {
+                                    Task { await user.signOut() }
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+
+                        // Status text
+                        Text(viewModel.statusText)
                             .foregroundColor(.white.opacity(0.6))
                             .multilineTextAlignment(.center)
-                        }
-                        .padding(.horizontal, 18)
-                    } else {
-                        Spacer()
-                        Text("All members have checked in for \(currentDate.fullFormat).")
-                            .foregroundColor(.white)
-                            .font(.title3)
-                        Spacer()
                     }
-                } else {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
+                    .padding(.horizontal, 18)
                 }
             }
             .task {
-                // Load members from Supabase
-                await supabase.loadMembers(user: user)
-                print("Loading members...")
-            }
-            .task {
-                // Load dates from Supabase
-                await supabase.loadDates(user: user)
-                print("Loading dates...")
+                // Load data on view appear
+                await viewModel.loadData()
             }
             .onAppear {
-                // Subscribe to real-time changes
+                // Start realtime sync
                 Task {
-                    await supabase.subscribeToMembers(user: user)
-                    await supabase.subscribeToAttendance(user: user)
-                    await loadTodaysAttendance()
+                    await viewModel.startRealtimeSync()
+                    await viewModel.loadTodaysAttendance()
                 }
             }
             .onDisappear {
-                // Unsubscribe when leaving view
-                supabase.unsubscribeAll()
+                // Stop realtime sync when leaving view
+                viewModel.stopRealtimeSync()
             }
-            .onChange(of: supabase.listOfAllDates) { _ in
-                // Reload today's attendance when dates change
-                Task {
-                    await loadTodaysAttendance()
+            .onChange(of: searchbarModel.searchText) { newValue in
+                // Sync search text to ViewModel
+                viewModel.searchText = newValue
+            }
+            .onChange(of: viewModel.searchText) { newValue in
+                // Sync search text back to searchbar (e.g., when cleared by ViewModel)
+                if newValue != searchbarModel.searchText {
+                    searchbarModel.searchText = newValue
                 }
             }
-            .onChange(of: supabase.attendanceDidUpdate) { _ in
-                // Real-time attendance update received, refresh today's check-ins
-                print("🔄 Attendance updated, reloading today's check-ins...")
-                Task {
-                    await loadTodaysAttendance()
-                }
+            .onChange(of: repository.dates) { _ in
+                // Reload attendance when dates change
+                viewModel.handleDatesChanged()
             }
-        }
-    }
-
-    func loadTodaysAttendance() async {
-        guard let todayDate = todayDateRecord() else {
-            checkedInMemberIds = []
-            return
-        }
-
-        checkedInMemberIds = await supabase.getAttendanceForDate(dateId: todayDate.id)
-        print("📋 Today's attendance: \(checkedInMemberIds.count) members checked in")
-    }
-    
-    func checkForLogout() {
-        if self.searchbarModel.searchText == "/logout" {
-            self.showLogoutAlert.toggle()
+            .onChange(of: repository.attendanceDidUpdate) { _ in
+                // Reload attendance when realtime update received
+                viewModel.handleAttendanceUpdated()
+            }
         }
     }
 }
 
+// MARK: - Member Checklist Row Component
+
+private struct MemberChecklistRow: View {
+    let member: Member
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            ZStack {
+                isSelected ? Color.white.opacity(0.32) : Color(hex: "354959")
+
+                HStack {
+                    Text(
+                        isSelected
+                            ? Image(systemName: "circle.inset.filled") : Image(systemName: "circle")
+                    )
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .padding(.horizontal)
+
+                    VStack(spacing: 0) {
+                        Spacer()
+                        HStack(spacing: 5) {
+                            Text(member.fullName)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        Spacer()
+
+                        // Row divider
+                        Color.gray
+                            .frame(height: 0.5)
+                            .opacity(0.5)
+                    }
+                    .frame(height: 50)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Preview
 
 struct CheckInView_Preview: PreviewProvider {
     static var previews: some View {
