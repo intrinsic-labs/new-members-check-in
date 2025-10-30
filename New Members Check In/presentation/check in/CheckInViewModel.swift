@@ -202,6 +202,9 @@ class CheckInViewModel: ObservableObject {
                 message:
                     "Successfully checked in \(successfulMembers.count) member(s), but failed for: \(failedNames). Please try again."
             )
+            print(
+                "⚠️ ViewModel: Partial success - \(successfulMembers.count) succeeded, \(failedMembers.count) failed"
+            )
         }
     }
 
