@@ -69,7 +69,7 @@ struct CheckInView: View {
                                 await viewModel.performCheckIn()
 
                                 // Show toast on complete success (no errors, all members checked in)
-                                if !viewModel.showingErrorAlert && viewModel.selectedMembers.isEmpty
+                                if viewModel.activeAlert == nil && viewModel.selectedMembers.isEmpty
                                 {
                                     withAnimation {
                                         toastModel.isPresented.toggle()
@@ -84,23 +84,6 @@ struct CheckInView: View {
                                 .frame(maxWidth: .infinity, maxHeight: 60)
                                 .background(.white)
                                 .cornerRadius(10, antialiased: true)
-                        }
-                        .alert(isPresented: $viewModel.showingErrorAlert) {
-                            Alert(
-                                title: Text("Error"),
-                                message: Text(viewModel.errorAlertMessage),
-                                dismissButton: .default(Text("OK"))
-                            )
-                        }
-                        .alert(isPresented: $viewModel.showLogoutAlert) {
-                            Alert(
-                                title: Text("Log out?"),
-                                message: Text("You will have to sign in again to use the app."),
-                                primaryButton: .destructive(Text("Log Out")) {
-                                    Task { await user.signOut() }
-                                },
-                                secondaryButton: .cancel()
-                            )
                         }
 
                         // Status text
@@ -147,6 +130,25 @@ struct CheckInView: View {
             .onChange(of: repository.attendanceDidUpdate) { _ in
                 // Reload attendance when realtime update received
                 viewModel.handleAttendanceUpdated()
+            }
+            .alert(item: $viewModel.activeAlert) { alertType in
+                switch alertType {
+                case .error(let message):
+                    return Alert(
+                        title: Text("Error"),
+                        message: Text(message),
+                        dismissButton: .default(Text("OK"))
+                    )
+                case .logout:
+                    return Alert(
+                        title: Text("Log out?"),
+                        message: Text("You will have to sign in again to use the app."),
+                        primaryButton: .destructive(Text("Log Out")) {
+                            Task { await user.signOut() }
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
             }
         }
     }

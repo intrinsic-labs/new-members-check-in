@@ -9,12 +9,25 @@ import SwiftUI
 
 /// ViewModel for the CheckInView, handling all business logic and state management.
 /// This separates concerns and makes the view purely focused on UI rendering.
+/// Alert types that can be displayed in the CheckInView
+enum AlertType: Identifiable {
+    case error(message: String)
+    case logout
+
+    var id: String {
+        switch self {
+        case .error: return "error"
+        case .logout: return "logout"
+        }
+    }
+}
+
 @MainActor
 class CheckInViewModel: ObservableObject {
 
     // MARK: - Dependencies
 
-    let repository: AttendanceRepositoryProtocol
+    let repository: any AttendanceRepositoryProtocol
 
     // MARK: - Published State
 
@@ -27,19 +40,13 @@ class CheckInViewModel: ObservableObject {
     /// Set of member IDs who have already checked in today
     @Published private(set) var checkedInMemberIds: Set<Int> = []
 
-    /// Whether to show the error alert
-    @Published var showingErrorAlert: Bool = false
-
-    /// The error message to display in the alert
-    @Published var errorAlertMessage: String = ""
-
-    /// Whether to show the logout confirmation alert
-    @Published var showLogoutAlert: Bool = false
+    /// The currently active alert to display (if any)
+    @Published var activeAlert: AlertType?
 
     // MARK: - Initialization
 
-    init(repository: AttendanceRepositoryProtocol = AttendanceRepository.shared) {
-        self.repository = repository
+    init() {
+        self.repository = AttendanceRepository.shared
         print("🏗️ CheckInViewModel initialized")
     }
 
@@ -101,8 +108,7 @@ class CheckInViewModel: ObservableObject {
             print("✅ ViewModel: Members loaded")
         } catch {
             print("❌ ViewModel: Failed to load members - \(error)")
-            errorAlertMessage = "Failed to load members: \(error.localizedDescription)"
-            showingErrorAlert = true
+            activeAlert = .error(message: "Failed to load members: \(error.localizedDescription)")
         }
 
         do {
@@ -110,8 +116,7 @@ class CheckInViewModel: ObservableObject {
             print("✅ ViewModel: Dates loaded")
         } catch {
             print("❌ ViewModel: Failed to load dates - \(error)")
-            errorAlertMessage = "Failed to load dates: \(error.localizedDescription)"
-            showingErrorAlert = true
+            activeAlert = .error(message: "Failed to load dates: \(error.localizedDescription)")
         }
 
         // Load today's attendance after data is loaded
@@ -148,21 +153,21 @@ class CheckInViewModel: ObservableObject {
     func performCheckIn() async {
         // Validate selection count
         if selectedMembers.count > 10 {
-            errorAlertMessage = "You cannot check more than 10 people in at once."
-            showingErrorAlert = true
+            activeAlert = .error(message: "You cannot check more than 10 people in at once.")
             return
         }
 
         if selectedMembers.isEmpty {
-            errorAlertMessage = "You haven't made any selection."
-            showingErrorAlert = true
+            activeAlert = .error(message: "You haven't made any selection.")
             return
         }
 
         // Make sure there is a date record for today
         guard let todayDate = todayDate else {
-            errorAlertMessage = "There is no class scheduled for today."
-            showingErrorAlert = true
+            let message = "There is no class scheduled for today."
+            activeAlert = .error(message: message)
+            print(message)
+            print("Showing error alert: \(activeAlert != nil)")
             return
         }
 
@@ -202,16 +207,18 @@ class CheckInViewModel: ObservableObject {
         } else if successfulMembers.isEmpty {
             // Complete failure
             let memberNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
-            errorAlertMessage =
-                "Failed to check in: \(memberNames). Please check your internet connection and try again."
-            showingErrorAlert = true
+            activeAlert = .error(
+                message:
+                    "Failed to check in: \(memberNames). Please check your internet connection and try again."
+            )
             print("❌ ViewModel: All check-ins failed (\(failedMembers.count) members)")
         } else {
             // Partial success
             let failedNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
-            errorAlertMessage =
-                "Successfully checked in \(successfulMembers.count) member(s), but failed for: \(failedNames). Please try again."
-            showingErrorAlert = true
+            activeAlert = .error(
+                message:
+                    "Successfully checked in \(successfulMembers.count) member(s), but failed for: \(failedNames). Please try again."
+            )
             print(
                 "⚠️ ViewModel: Partial success - \(successfulMembers.count) succeeded, \(failedMembers.count) failed"
             )
@@ -221,7 +228,7 @@ class CheckInViewModel: ObservableObject {
     /// Check if the search text is the logout command and trigger alert if so
     func checkForLogoutCommand() {
         if searchText == "/logout" {
-            showLogoutAlert = true
+            activeAlert = .logout
         }
     }
 
