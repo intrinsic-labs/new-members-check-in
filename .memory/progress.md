@@ -11,10 +11,10 @@
 - [x] Phase 2: Create Repository Layer
 - [x] Phase 3: Build CheckInViewModel
 - [x] Phase 4: Refactor Authentication
-- [ ] Phase 5: Update Other Views
+- [x] Phase 5: Update Other Views
 - [ ] Phase 6: Cleanup
 
-**Estimated Completion:** 67% (4/6 phases)
+**Estimated Completion:** 83% (5/6 phases)
 
 ---
 
@@ -113,23 +113,32 @@
 
 ---
 
-## ⏸️ Phase 5: Update Other Views
+## ✅ Phase 5: Update Other Views
 
-**Status:** 🔴 NOT STARTED
+**Status:** ✅ COMPLETED
 
 **Tasks:**
-- [ ] Update MissingMembersView to use repository
-- [ ] Remove @StateObject supabase from MissingMembersView
-- [ ] Inject repository into MissingMembersView
-- [ ] Update HomepageView to pass repository to children
-- [ ] Update ContentView to create and inject repository
-- [ ] Test MissingMembersView functionality
-- [ ] Verify navigation between views works
-- [ ] Test date picker and attendance filtering
+- [x] Update MissingMembersView to use repository
+- [x] Remove @StateObject supabase from MissingMembersView
+- [x] Inject repository into MissingMembersView
+- [x] Update HomepageView to pass repository to children (not needed - uses shared instance)
+- [x] Update ContentView to create and inject repository (not needed - repository is singleton)
+- [x] Add error handling with alerts
+- [x] No compilation errors
+- [ ] Test MissingMembersView functionality (user to test)
+- [ ] Verify navigation between views works (user to test)
+- [ ] Test date picker and attendance filtering (user to test)
 
 **Notes:**
-- MissingMembersView probably doesn't need a ViewModel (simple enough)
-- All views should use the same shared repository instance
+- MissingMembersView refactored without ViewModel (kept it simple as planned)
+- Repository injected via init with default to AttendanceRepository.shared
+- Removed all SupabaseService dependencies
+- Added error alerts for better user feedback
+- All method calls now use try/await with proper error handling
+- HomepageView and ContentView required no changes (repository is singleton)
+- No user parameter needed anymore (removed from all calls)
+</parameter>
+</invoke>
 
 ---
 
@@ -265,12 +274,50 @@
   - Session restoration (close and reopen app)
   - Error handling (wrong password, network issues)
 
-### Session 5 (Next)
-- **Goal**: Test Phase 4 changes, then move to Phase 5 (Update Other Views)
-- **Testing checklist for Phase 4**:
-  - [ ] App launches and restores session if available
-  - [ ] Sign in with valid credentials works
-  - [ ] Sign in with invalid credentials shows error
-  - [ ] /logout command in CheckInView shows alert and logs out
-  - [ ] Session persists between app restarts
-  - [ ] Sign out clears session properly
+### Session 5 (COMPLETED)
+- ✅ COMPLETED Phase 5 - Update Other Views
+- **What was accomplished**:
+  - Refactored `MissingMembersView.swift` to use AttendanceRepository
+  - Removed `@StateObject var supabase = SupabaseService()`
+  - Added repository injection via init with default to `AttendanceRepository.shared`
+  - Replaced all `supabase.listOfAllMembers` → `repository.members`
+  - Replaced all `supabase.listOfAllDates` → `repository.dates`
+  - Updated method calls: `loadMembers()`, `loadDates()`, `getAttendanceForDate()`
+  - Removed `user` parameter from all repository calls (no longer needed)
+  - Added error handling with alert state (`showErrorAlert`, `errorMessage`)
+  - Created `loadData()` helper method to consolidate loading logic
+  - Added try/await error handling to `loadMissingMembers()`
+  - Fixed Picker tag to use optional type: `.tag(date as AttendanceDate?)`
+  - No compilation errors across entire project
+- **Architecture improvements**:
+  - MissingMembersView kept simple (no ViewModel needed as planned)
+  - Consistent pattern: View → Repository → DataSource
+  - All views now use AttendanceRepository.shared (single source of truth)
+  - SupabaseService no longer used by any views (ready to delete in Phase 6)
+  - Error alerts provide user feedback when data loading fails
+- **Files updated**:
+  - ✅ MissingMembersView.swift - full refactor complete
+  - ✅ HomepageView.swift - no changes needed (works with refactored MissingMembersView)
+  - ✅ ContentView.swift - no changes needed (repository is singleton)
+- **User needs to test**:
+  - MissingMembersView loads and displays dates/members correctly
+  - Date picker works (selecting different dates)
+  - Missing members list updates when date changes
+  - "All members checked in" message shows when appropriate
+  - Navigation between CheckInView and MissingMembersView works
+  - Error alerts display properly if data loading fails
+  - Realtime updates still work across all views
+
+### Session 6 (Next)
+- **Goal**: Test Phase 5 changes, then move to Phase 6 (Cleanup)
+- **Testing checklist for Phase 5**:
+  - [ ] MissingMembersView displays past dates correctly
+  - [ ] Selecting a date shows missing members for that date
+  - [ ] Navigation between views works smoothly
+  - [ ] Error handling shows alerts when data fails to load
+  - [ ] Realtime updates still function across all views
+- **Phase 6 Preview**: Ready to delete old code
+  - Delete `SupabaseService` (no longer used)
+  - Delete Airtable files (Records.swift, Airtable.swift)
+  - Reorganize config and utility files
+  - Final cleanup and testing
