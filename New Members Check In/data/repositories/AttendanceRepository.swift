@@ -20,8 +20,8 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
     // MARK: - Private Properties
 
     private let dataSource = SupabaseDataSource()
-    private var membersChannel: RealtimeChannelV2?
-    private var attendanceChannel: RealtimeChannelV2?
+    private var membersSubscription: RealtimeSubscription?
+    private var attendanceSubscription: RealtimeSubscription?
     private var isRealtimeSyncActive = false
 
     // MARK: - Initialization
@@ -89,7 +89,7 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
 
         do {
             // Subscribe to members table changes
-            membersChannel = try await dataSource.createMembersSubscription { [weak self] in
+            membersSubscription = try await dataSource.createMembersSubscription { [weak self] in
                 Task { @MainActor in
                     guard let self = self else { return }
                     // When members change, reload both members and dates
@@ -100,7 +100,8 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
             }
 
             // Subscribe to attendance table changes
-            attendanceChannel = try await dataSource.createAttendanceSubscription { [weak self] in
+            attendanceSubscription = try await dataSource.createAttendanceSubscription {
+                [weak self] in
                 Task { @MainActor in
                     guard let self = self else { return }
                     // Toggle the flag to signal views to refresh attendance
@@ -126,14 +127,12 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
 
         print("🛑 Stopping realtime sync...")
 
-        Task { @MainActor in
-            await membersChannel?.unsubscribe()
-            await attendanceChannel?.unsubscribe()
-            membersChannel = nil
-            attendanceChannel = nil
-            isRealtimeSyncActive = false
-            print("✅ Realtime sync stopped")
-        }
+        membersSubscription?.cancel()
+        attendanceSubscription?.cancel()
+        membersSubscription = nil
+        attendanceSubscription = nil
+        isRealtimeSyncActive = false
+        print("✅ Realtime sync stopped")
     }
 
     // MARK: - Lifecycle
