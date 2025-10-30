@@ -1,5 +1,4 @@
 import Foundation
-import Supabase
 
 @MainActor
 class AuthUser: ObservableObject {
@@ -13,10 +12,11 @@ class AuthUser: ObservableObject {
     @Published var errorMessage: String = ""
     @Published var isLoading = false
 
-    private let supabase = SupabaseConfig.shared.client
+    private let authDataSource: AuthenticationDataSource
     private let keychain = KeychainManager.shared
 
-    init() {
+    init(authDataSource: AuthenticationDataSource = AuthenticationDataSource()) {
+        self.authDataSource = authDataSource
         Task {
             await restoreSessionIfAvailable()
         }
@@ -25,7 +25,7 @@ class AuthUser: ObservableObject {
     /// Attempt to restore a previous session from Keychain
     func restoreSessionIfAvailable() async {
         do {
-            let session = try await supabase.auth.session
+            let session = try await authDataSource.getSession()
             if !session.isExpired {
                 await MainActor.run {
                     self.isAuthenticated = true
@@ -46,7 +46,7 @@ class AuthUser: ObservableObject {
         }
 
         do {
-            let session = try await supabase.auth.signIn(email: email, password: password)
+            let session = try await authDataSource.signIn(email: email, password: password)
 
             await MainActor.run {
                 self.isAuthenticated = true
@@ -68,7 +68,7 @@ class AuthUser: ObservableObject {
     /// Sign out and clear session
     func signOut() async {
         do {
-            try await supabase.auth.signOut()
+            try await authDataSource.signOut()
 
             await MainActor.run {
                 self.isAuthenticated = false
