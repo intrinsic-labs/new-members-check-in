@@ -121,16 +121,6 @@ class CheckInViewModel: ObservableObject {
         await loadTodaysAttendance()
     }
 
-    /// Start realtime synchronization with the backend
-    func startRealtimeSync() async {
-        await repository.startRealtimeSync()
-    }
-
-    /// Stop realtime synchronization
-    func stopRealtimeSync() {
-        repository.stopRealtimeSync()
-    }
-
     /// Toggle selection of a member for check-in
     func toggleMemberSelection(_ member: Member) {
         if let index = selectedMembers.firstIndex(where: { $0.id == member.id }) {

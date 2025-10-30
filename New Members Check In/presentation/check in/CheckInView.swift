@@ -98,16 +98,7 @@ struct CheckInView: View {
                 // Load data on view appear
                 await viewModel.loadData()
             }
-            .onAppear {
-                // Start realtime sync
-                Task {
-                    await viewModel.startRealtimeSync()
-                }
-            }
-            .onDisappear {
-                // Stop realtime sync when leaving view
-                viewModel.stopRealtimeSync()
-            }
+
             .onChange(of: searchbarModel.searchText) { newValue in
                 // Sync search text to ViewModel
                 viewModel.searchText = newValue

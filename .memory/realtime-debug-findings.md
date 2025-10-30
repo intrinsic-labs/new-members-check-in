@@ -147,20 +147,44 @@ await channel.subscribeWithError()
 - Store the subscription object: `let subscription = channel.onPostgresChange(...)`
 - Return the subscription instead of discarding it
 - Repository now stores `RealtimeSubscription` objects to keep callbacks alive
-- Changed `stopRealtimeSync()` to call `subscription.cancel()` instead of `channel.unsubscribe()`
 
 ### Fix #2: Fix View Observation
 **File:** `CheckInView.swift`
 - Changed `viewModel.repository.attendanceDidUpdate` → `repository.attendanceDidUpdate`
 - View now correctly observes the shared repository instance
 
-### Fix #3: Enhanced Debug Logging
-**Files:** `SupabaseDataSource.swift`
-- Added comprehensive logging to both subscription methods
-- Logs when channel is created
-- Logs when subscription succeeds
-- **Logs when realtime events are received** (this is key!)
-- Logs when callbacks are invoked
+### Fix #3: Keep Subscriptions Active for App Lifetime (FINAL SOLUTION)
+**Files:** `AttendanceRepository.swift`, `CheckInView.swift`, `CheckInViewModel.swift`, `AttendanceRepositoryProtocol.swift`
+
+**The Problem:**
+When navigating away from CheckInView and back, purple warnings appeared:
+```
+You cannot call postgresChange after joining the channel, this won't work as expected.
+```
+This happened because:
+- Subscriptions were being cancelled on `onDisappear`
+- New subscriptions were created on `onAppear`
+- Channels with those names were still "joined" to Supabase
+- Re-calling `onPostgresChange()` on an already-joined channel failed
+
+**The Solution:**
+- Initialize subscriptions **once** in `AttendanceRepository.init()`
+- Keep them active for the entire app lifetime
+- Remove `startRealtimeSync()` and `stopRealtimeSync()` from public API
+- Removed `onAppear`/`onDisappear` lifecycle management from view
+
+**Why This Works Better:**
+- ✅ No reconnection issues on navigation
+- ✅ Simpler code (no lifecycle management)
+- ✅ More performant (no teardown/setup overhead)
+- ✅ Gets updates even when on other screens
+- ✅ Minimal resource usage (one persistent WebSocket)
+- ✅ Perfect for a 2-screen app
+
+### Fix #4: Minimized Logging
+**Files:** All files
+- Removed verbose debug logging
+- Kept only essential subscription status and error messages
 
 ---
 
@@ -341,10 +365,15 @@ Handle network interruptions gracefully:
 
 **Why it failed:** The subscription object holds the callback - when deallocated, callbacks stop firing
 
-**Fix:** Store `RealtimeSubscription` objects in repository to keep them alive
+**Initial fix:** Store `RealtimeSubscription` objects in repository to keep them alive
 
-**Testing:** Enhanced logging to verify events are received
+**Navigation bug:** Stopping/restarting subscriptions on navigation caused "cannot call postgresChange after joining" warnings
 
-**Expected result:** App should now receive and react to realtime changes immediately
+**Final solution:** Initialize subscriptions once in repository init, keep active for app lifetime
 
-**Key lesson:** In Supabase Swift SDK, you MUST keep a strong reference to `RealtimeSubscription` objects for callbacks to work!
+**Result:** Clean, reliable realtime updates with no lifecycle management complexity
+
+**Key lessons:**
+1. In Supabase Swift SDK, you MUST keep a strong reference to `RealtimeSubscription` objects for callbacks to work
+2. For simple apps, keep WebSocket subscriptions alive instead of managing start/stop lifecycle
+3. Channels cannot have `onPostgresChange()` called after they're already joined - create fresh channels or keep subscriptions persistent
