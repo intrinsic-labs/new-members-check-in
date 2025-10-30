@@ -13,17 +13,39 @@
 		AC31B9F82EAA010C007C123D /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = AC31B9F72EAA010C007C123D /* Realtime */; };
 		AC31B9FA2EAA010C007C123D /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = AC31B9F92EAA010C007C123D /* Storage */; };
 		AC31B9FC2EAA010C007C123D /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = AC31B9FB2EAA010C007C123D /* Supabase */; };
+		AC31BA382EB3A630007C123D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31BA372EB3A630007C123D /* XCTest.framework */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AC31BA2B2EB3A548007C123D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACBB71F92971EE7A002F5FC3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACBB72002971EE7A002F5FC3;
+			remoteInfo = "New Members Check In";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		AC31BA272EB3A548007C123D /* New Members Check InTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "New Members Check InTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC31BA372EB3A630007C123D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		ACBB72012971EE7A002F5FC3 /* New Members Check In.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "New Members Check In.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AC31B9DB2EAA0098007C123D /* New Members Check In */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Members Check In"; sourceTree = "<group>"; };
+		AC31BA282EB3A548007C123D /* New Members Check InTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "New Members Check InTests"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AC31BA242EB3A548007C123D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC31BA382EB3A630007C123D /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ACBB71FE2971EE7A002F5FC3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -40,10 +62,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC31BA362EB3A630007C123D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AC31BA372EB3A630007C123D /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ACBB71F82971EE7A002F5FC3 = {
 			isa = PBXGroup;
 			children = (
 				AC31B9DB2EAA0098007C123D /* New Members Check In */,
+				AC31BA282EB3A548007C123D /* New Members Check InTests */,
+				AC31BA362EB3A630007C123D /* Frameworks */,
 				ACBB72022971EE7A002F5FC3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				ACBB72012971EE7A002F5FC3 /* New Members Check In.app */,
+				AC31BA272EB3A548007C123D /* New Members Check InTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -59,6 +92,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AC31BA262EB3A548007C123D /* New Members Check InTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AC31BA2D2EB3A548007C123D /* Build configuration list for PBXNativeTarget "New Members Check InTests" */;
+			buildPhases = (
+				AC31BA232EB3A548007C123D /* Sources */,
+				AC31BA242EB3A548007C123D /* Frameworks */,
+				AC31BA252EB3A548007C123D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AC31BA2C2EB3A548007C123D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				AC31BA282EB3A548007C123D /* New Members Check InTests */,
+			);
+			name = "New Members Check InTests";
+			packageProductDependencies = (
+			);
+			productName = "New Members Check InTests";
+			productReference = AC31BA272EB3A548007C123D /* New Members Check InTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		ACBB72002971EE7A002F5FC3 /* New Members Check In */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = ACBB720F2971EE7B002F5FC3 /* Build configuration list for PBXNativeTarget "New Members Check In" */;
@@ -86,9 +142,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					AC31BA262EB3A548007C123D = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = ACBB72002971EE7A002F5FC3;
+					};
 					ACBB72002971EE7A002F5FC3 = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -111,11 +171,19 @@
 			projectRoot = "";
 			targets = (
 				ACBB72002971EE7A002F5FC3 /* New Members Check In */,
+				AC31BA262EB3A548007C123D /* New Members Check InTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AC31BA252EB3A548007C123D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ACBB71FF2971EE7A002F5FC3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -126,6 +194,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AC31BA232EB3A548007C123D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		ACBB71FD2971EE7A002F5FC3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -135,7 +210,61 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AC31BA2C2EB3A548007C123D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACBB72002971EE7A002F5FC3 /* New Members Check In */;
+			targetProxy = AC31BA2B2EB3A548007C123D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		AC31BA2E2EB3A548007C123D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8462243PH7;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-enable-testing";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asherpope.New-Members-Check-InTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New Members Check In.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/New Members Check In";
+			};
+			name = Debug;
+		};
+		AC31BA2F2EB3A548007C123D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8462243PH7;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.asherpope.New-Members-Check-InTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/New Members Check In.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/New Members Check In";
+			};
+			name = Release;
+		};
 		ACBB720D2971EE7B002F5FC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -337,6 +466,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AC31BA2D2EB3A548007C123D /* Build configuration list for PBXNativeTarget "New Members Check InTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AC31BA2E2EB3A548007C123D /* Debug */,
+				AC31BA2F2EB3A548007C123D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		ACBB71FC2971EE7A002F5FC3 /* Build configuration list for PBXProject "New Members Check In" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
