@@ -47,12 +47,11 @@ struct ContentView: View {
         .environmentObject(user)
         .onAppear {
             monitor.pathUpdateHandler = { path in
-                if path.status == .satisfied {
-                    networkConnection = true
-                    print("Network connection established")
-                } else {
-                    networkConnection = false
-                    print("No internet connection")
+                let isConnected = path.status == .satisfied
+                // Only update and log when connection state actually changes
+                if isConnected != networkConnection {
+                    networkConnection = isConnected
+                    print(isConnected ? "Network connection established" : "No internet connection")
                 }
             }
 
