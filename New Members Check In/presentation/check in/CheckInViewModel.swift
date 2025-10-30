@@ -47,7 +47,7 @@ class CheckInViewModel: ObservableObject {
 
     init() {
         self.repository = AttendanceRepository.shared
-        print("🏗️ CheckInViewModel initialized")
+
     }
 
     // MARK: - Computed Properties
@@ -105,17 +105,15 @@ class CheckInViewModel: ObservableObject {
     func loadData() async {
         do {
             try await repository.loadMembers()
-            print("✅ ViewModel: Members loaded")
         } catch {
-            print("❌ ViewModel: Failed to load members - \(error)")
+            print("❌ Failed to load members - \(error)")
             activeAlert = .error(message: "Failed to load members: \(error.localizedDescription)")
         }
 
         do {
             try await repository.loadDates()
-            print("✅ ViewModel: Dates loaded")
         } catch {
-            print("❌ ViewModel: Failed to load dates - \(error)")
+            print("❌ Failed to load dates - \(error)")
             activeAlert = .error(message: "Failed to load dates: \(error.localizedDescription)")
         }
 
@@ -126,13 +124,11 @@ class CheckInViewModel: ObservableObject {
     /// Start realtime synchronization with the backend
     func startRealtimeSync() async {
         await repository.startRealtimeSync()
-        print("🔄 ViewModel: Started realtime sync")
     }
 
     /// Stop realtime synchronization
     func stopRealtimeSync() {
         repository.stopRealtimeSync()
-        print("⏸️ ViewModel: Stopped realtime sync")
     }
 
     /// Toggle selection of a member for check-in
@@ -180,10 +176,9 @@ class CheckInViewModel: ObservableObject {
             do {
                 try await repository.checkInMember(memberId: memberRecord.id, dateId: todayDate.id)
                 successfulMembers.append(memberRecord)
-                print("✅ ViewModel: Checked in \(memberRecord.fullName)")
             } catch {
                 failedMembers.append(memberRecord)
-                print("❌ ViewModel: Failed to check in member \(memberRecord.fullName) - \(error)")
+                print("❌ Failed to check in member \(memberRecord.fullName) - \(error)")
             }
         }
 
@@ -203,7 +198,6 @@ class CheckInViewModel: ObservableObject {
         // Show appropriate message based on results
         if failedMembers.isEmpty {
             // Complete success
-            print("✅ ViewModel: Successfully checked in \(countToCheckIn) members!")
         } else if successfulMembers.isEmpty {
             // Complete failure
             let memberNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
@@ -211,16 +205,12 @@ class CheckInViewModel: ObservableObject {
                 message:
                     "Failed to check in: \(memberNames). Please check your internet connection and try again."
             )
-            print("❌ ViewModel: All check-ins failed (\(failedMembers.count) members)")
         } else {
             // Partial success
             let failedNames = failedMembers.map { $0.fullName }.joined(separator: ", ")
             activeAlert = .error(
                 message:
                     "Successfully checked in \(successfulMembers.count) member(s), but failed for: \(failedNames). Please try again."
-            )
-            print(
-                "⚠️ ViewModel: Partial success - \(successfulMembers.count) succeeded, \(failedMembers.count) failed"
             )
         }
     }
@@ -241,10 +231,8 @@ class CheckInViewModel: ObservableObject {
 
         do {
             checkedInMemberIds = try await repository.getAttendanceForDate(dateId: todayDate.id)
-            print(
-                "📋 ViewModel: Today's attendance - \(checkedInMemberIds.count) members checked in")
         } catch {
-            print("❌ ViewModel: Failed to load today's attendance - \(error)")
+            print("❌ Failed to load today's attendance - \(error)")
             // Don't show error alert for this, just log it
             checkedInMemberIds = []
         }
@@ -252,7 +240,6 @@ class CheckInViewModel: ObservableObject {
 
     /// Called when dates change to reload attendance
     func handleDatesChanged() {
-        print("📅 ViewModel: Dates changed, reloading attendance...")
         Task {
             await loadTodaysAttendance()
         }
@@ -260,8 +247,6 @@ class CheckInViewModel: ObservableObject {
 
     /// Called when attendance updates via realtime sync
     func handleAttendanceUpdated() {
-        print("🔔 ViewModel: Attendance update detected from onChange!")
-        print("🔄 ViewModel: Reloading today's check-ins...")
         Task {
             await loadTodaysAttendance()
         }

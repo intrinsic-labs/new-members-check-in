@@ -101,7 +101,6 @@ class SupabaseDataSource {
     func createMembersSubscription(onChange: @escaping @Sendable () -> Void) async throws
         -> RealtimeSubscription
     {
-        print("🎯 SupabaseDataSource: Creating members subscription channel...")
         let channel = supabase.realtimeV2.channel("members_channel")
 
         let subscription = channel.onPostgresChange(
@@ -109,20 +108,14 @@ class SupabaseDataSource {
             schema: "public",
             table: "members"
         ) { change in
-            print("🔥 SupabaseDataSource: RECEIVED MEMBERS REALTIME EVENT!")
-            print("   Event type: \(change.rawMessage.event)")
             Task { @MainActor in
-                print("📡 SupabaseDataSource: Members table changed, calling onChange callback...")
+                print("📡 Members table changed")
                 onChange()
-                print("✅ SupabaseDataSource: Members onChange callback completed")
             }
         }
 
-        print("📞 SupabaseDataSource: Calling subscribeWithError() for members...")
         try await channel.subscribeWithError()
-        print("🔄 SupabaseDataSource: ✅ Successfully subscribed to members table changes!")
-        print("   Channel ID: members_channel")
-        print("   Table: public.members")
+        print("✅ Subscribed to members table changes")
         return subscription
     }
 
@@ -132,7 +125,6 @@ class SupabaseDataSource {
     func createAttendanceSubscription(onChange: @escaping @Sendable () -> Void) async throws
         -> RealtimeSubscription
     {
-        print("🎯 SupabaseDataSource: Creating attendance subscription channel...")
         let channel = supabase.realtimeV2.channel("attendance_channel")
 
         let subscription = channel.onPostgresChange(
@@ -140,21 +132,14 @@ class SupabaseDataSource {
             schema: "public",
             table: "attendance"
         ) { change in
-            print("🔥 SupabaseDataSource: RECEIVED REALTIME EVENT!")
-            print("   Event type: \(change.rawMessage.event)")
-            print("   Full change: \(change)")
             Task { @MainActor in
-                print("📡 SupabaseDataSource: Calling onChange callback...")
+                print("📡 Attendance table changed")
                 onChange()
-                print("✅ SupabaseDataSource: onChange callback completed")
             }
         }
 
-        print("📞 SupabaseDataSource: Calling subscribeWithError()...")
         try await channel.subscribeWithError()
-        print("🔄 SupabaseDataSource: ✅ Successfully subscribed to attendance table changes!")
-        print("   Channel ID: attendance_channel")
-        print("   Table: public.attendance")
+        print("✅ Subscribed to attendance table changes")
         return subscription
     }
 }
