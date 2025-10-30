@@ -36,9 +36,8 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
         do {
             let fetchedMembers = try await dataSource.fetchMembers()
             self.members = fetchedMembers
-            print("✅ Repository: Loaded \(fetchedMembers.count) members")
         } catch {
-            print("❌ Repository: Failed to load members - \(error)")
+            print("❌ Failed to load members - \(error)")
             throw error
         }
     }
@@ -47,9 +46,8 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
         do {
             let fetchedDates = try await dataSource.fetchDates()
             self.dates = fetchedDates
-            print("✅ Repository: Loaded \(fetchedDates.count) dates")
         } catch {
-            print("❌ Repository: Failed to load dates - \(error)")
+            print("❌ Failed to load dates - \(error)")
             throw error
         }
     }
@@ -57,12 +55,9 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
     func getAttendanceForDate(dateId: Int) async throws -> Set<Int> {
         do {
             let attendanceSet = try await dataSource.fetchAttendanceForDate(dateId: dateId)
-            print(
-                "✅ Repository: Fetched attendance for date \(dateId) - \(attendanceSet.count) members"
-            )
             return attendanceSet
         } catch {
-            print("❌ Repository: Failed to fetch attendance for date \(dateId) - \(error)")
+            print("❌ Failed to fetch attendance for date \(dateId) - \(error)")
             throw error
         }
     }
@@ -70,9 +65,8 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
     func checkInMember(memberId: Int, dateId: Int) async throws {
         do {
             try await dataSource.insertAttendance(memberId: memberId, dateId: dateId)
-            print("✅ Repository: Checked in member \(memberId) for date \(dateId)")
         } catch {
-            print("❌ Repository: Failed to check in member \(memberId) - \(error)")
+            print("❌ Failed to check in member \(memberId) - \(error)")
             throw error
         }
     }
@@ -84,8 +78,6 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
             print("⚠️ Realtime sync already active")
             return
         }
-
-        print("🚀 Starting realtime sync...")
 
         do {
             // Subscribe to members table changes
@@ -105,15 +97,11 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
                 Task { @MainActor in
                     guard let self = self else { return }
                     // Toggle the flag to signal views to refresh attendance
-                    print("🔔 Repository: Attendance realtime update received!")
                     self.attendanceDidUpdate.toggle()
-                    print(
-                        "🔔 Repository: attendanceDidUpdate toggled to \(self.attendanceDidUpdate)")
                 }
             }
 
             isRealtimeSyncActive = true
-            print("✅ Realtime sync started successfully")
         } catch {
             print("❌ Failed to start realtime sync: \(error)")
         }
@@ -121,23 +109,18 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
 
     func stopRealtimeSync() {
         guard isRealtimeSyncActive else {
-            print("⚠️ Realtime sync not active")
             return
         }
-
-        print("🛑 Stopping realtime sync...")
 
         membersSubscription?.cancel()
         attendanceSubscription?.cancel()
         membersSubscription = nil
         attendanceSubscription = nil
         isRealtimeSyncActive = false
-        print("✅ Realtime sync stopped")
     }
 
     // MARK: - Lifecycle
 
     deinit {
-        print("🗑️ AttendanceRepository deallocated")
     }
 }
