@@ -34,11 +34,5 @@ protocol AttendanceRepositoryProtocol: ObservableObject {
     ///   - dateId: The ID of the date to check in for
     func checkInMember(memberId: Int, dateId: Int) async throws
 
-    // MARK: - Realtime Sync
 
-    /// Start listening for real-time updates from the data source
-    func startRealtimeSync() async
-
-    /// Stop listening for real-time updates
-    func stopRealtimeSync()
 }

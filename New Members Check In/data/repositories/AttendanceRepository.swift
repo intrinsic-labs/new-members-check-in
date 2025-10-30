@@ -22,12 +22,14 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
     private let dataSource = SupabaseDataSource()
     private var membersSubscription: RealtimeSubscription?
     private var attendanceSubscription: RealtimeSubscription?
-    private var isRealtimeSyncActive = false
 
     // MARK: - Initialization
 
     private init() {
-        print("🏗️ AttendanceRepository initialized")
+        // Start realtime subscriptions - keep active for app lifetime
+        Task {
+            await startRealtimeSync()
+        }
     }
 
     // MARK: - Data Operations
@@ -73,12 +75,7 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
 
     // MARK: - Realtime Sync
 
-    func startRealtimeSync() async {
-        guard !isRealtimeSyncActive else {
-            print("⚠️ Realtime sync already active")
-            return
-        }
-
+    private func startRealtimeSync() async {
         do {
             // Subscribe to members table changes
             membersSubscription = try await dataSource.createMembersSubscription { [weak self] in
@@ -100,27 +97,25 @@ class AttendanceRepository: ObservableObject, AttendanceRepositoryProtocol {
                     self.attendanceDidUpdate.toggle()
                 }
             }
-
-            isRealtimeSyncActive = true
         } catch {
             print("❌ Failed to start realtime sync: \(error)")
         }
     }
 
-    func stopRealtimeSync() {
-        guard isRealtimeSyncActive else {
-            return
-        }
-
+    // Clean up subscriptions (called on deinit if needed)
+    private func stopRealtimeSync() {
         membersSubscription?.cancel()
         attendanceSubscription?.cancel()
         membersSubscription = nil
         attendanceSubscription = nil
-        isRealtimeSyncActive = false
+        print("Canceled all realtime subscriptions")
     }
 
     // MARK: - Lifecycle
 
     deinit {
+        Task { [weak self] in
+            await self?.stopRealtimeSync()
+        }
     }
 }
