@@ -9,21 +9,26 @@ import SwiftUI
 
 struct MissingMembersView: View {
     @EnvironmentObject var user: AuthUser
-    @StateObject var supabase = SupabaseService()
+    @ObservedObject private var repository = AttendanceRepository.shared
+
     @State private var dateSelection: AttendanceDate?
     @State private var missingMembers: [Member] = []
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         VStack(spacing: 20) {
-            if !supabase.listOfAllDates.isEmpty {
+            if !repository.dates.isEmpty {
                 let pastDates = datesBeforeToday()
 
                 // Here is the date picker
                 VStack {
                     HStack(spacing: 0) {
                         if let selectedDate = dateSelection {
-                            Text("The members listed below did not check in on \(selectedDate.classDate).")
-                                .foregroundColor(.white)
+                            Text(
+                                "The members listed below did not check in on \(selectedDate.classDate)."
+                            )
+                            .foregroundColor(.white)
                         } else {
                             Text("Select a date to view attendance.")
                                 .foregroundColor(.white)
@@ -34,7 +39,7 @@ struct MissingMembersView: View {
                         Picker("Select a date", selection: $dateSelection) {
                             ForEach(pastDates, id: \.id) { date in
                                 Text(date.classDate)
-                                    .tag(date)
+                                    .tag(date as AttendanceDate?)
                             }
                         }
                         .pickerStyle(.menu)
@@ -102,11 +107,7 @@ struct MissingMembersView: View {
             }
         }
         .task {
-            await supabase.loadMembers(user: user)
-        }
-        .task {
-            await supabase.loadDates(user: user)
-            dateSelection = datesBeforeToday().last
+            await loadData()
         }
         .onChange(of: dateSelection) { newSelection in
             Task {
@@ -117,28 +118,56 @@ struct MissingMembersView: View {
                 }
             }
         }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(errorMessage)
+        }
     }
+
+    // MARK: - Helper Methods
 
     func datesBeforeToday() -> [AttendanceDate] {
         let todayString = currentDate.isoFormat
-        return supabase.listOfAllDates.filter { date in
+        return repository.dates.filter { date in
             date.classDate <= todayString
         }
     }
 
-    func loadMissingMembers(for dateId: Int) async {
-        // Get all members who checked in for this date
-        let checkedInIds = await supabase.getAttendanceForDate(dateId: dateId)
-
-        // Filter to get only those who didn't check in
-        missingMembers = supabase.listOfAllMembers.filter { member in
-            !checkedInIds.contains(member.id)
+    func loadData() async {
+        do {
+            try await repository.loadMembers()
+            try await repository.loadDates()
+            // Auto-select the most recent past date
+            dateSelection = datesBeforeToday().last
+        } catch {
+            errorMessage = "Failed to load data: \(error.localizedDescription)"
+            showErrorAlert = true
+            print("❌ Error loading data in MissingMembersView: \(error)")
         }
+    }
 
-        print("📊 For date ID \(dateId): \(checkedInIds.count) checked in, \(missingMembers.count) missing")
+    func loadMissingMembers(for dateId: Int) async {
+        do {
+            // Get all members who checked in for this date
+            let checkedInIds = try await repository.getAttendanceForDate(dateId: dateId)
+
+            // Filter to get only those who didn't check in
+            missingMembers = repository.members.filter { member in
+                !checkedInIds.contains(member.id)
+            }
+
+            print(
+                "📊 For date ID \(dateId): \(checkedInIds.count) checked in, \(missingMembers.count) missing"
+            )
+        } catch {
+            errorMessage = "Failed to load attendance: \(error.localizedDescription)"
+            showErrorAlert = true
+            print("❌ Error loading missing members: \(error)")
+            missingMembers = []
+        }
     }
 }
-
 
 struct MissingMembersView_Preview: PreviewProvider {
     static var previews: some View {
