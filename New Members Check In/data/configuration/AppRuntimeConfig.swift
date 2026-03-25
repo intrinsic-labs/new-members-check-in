@@ -3,7 +3,9 @@ import Foundation
 enum AppRuntimeConfig {
     static func supabaseURL() throws -> URL {
         let rawValue = try stringValue(forInfoKey: "SUPABASE_URL")
-        guard let value = URL(string: rawValue), value.scheme != nil, value.host != nil else {
+        // Xcode config files require escaped slashes for URLs (https:\/\/...).
+        let normalized = rawValue.replacingOccurrences(of: "\\/", with: "/")
+        guard let value = URL(string: normalized), value.scheme != nil, value.host != nil else {
             throw RuntimeConfigError.invalidValue(key: "SUPABASE_URL")
         }
         return value
