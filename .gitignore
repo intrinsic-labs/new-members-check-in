@@ -1,0 +1,18 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xccheckout
+*.moved-aside
+*.xcscmblueprint
+
+# User-specific project/workspace data
+**/*.xcworkspace/xcuserdata/
+**/*.xcodeproj/xcuserdata/
+
+# Local runtime secrets override
+Config/Secrets.xcconfig
+
+# Local working artifacts
+.memory/
+.dev/

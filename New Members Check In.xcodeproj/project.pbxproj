@@ -27,6 +27,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ACBB72A22971F000002F5FC3 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		ACBB72A32971F000002F5FC3 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		ACBB72A42971F000002F5FC3 /* Secrets.xcconfig.template */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig.template; sourceTree = "<group>"; };
 		AC31BA272EB3A548007C123D /* New Members Check InTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "New Members Check InTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC31BA372EB3A630007C123D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		ACBB72012971EE7A002F5FC3 /* New Members Check In.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "New Members Check In.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,11 +73,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		ACBB72A12971F000002F5FC3 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				ACBB72A22971F000002F5FC3 /* Debug.xcconfig */,
+				ACBB72A32971F000002F5FC3 /* Release.xcconfig */,
+				ACBB72A42971F000002F5FC3 /* Secrets.xcconfig.template */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		ACBB71F82971EE7A002F5FC3 = {
 			isa = PBXGroup;
 			children = (
 				AC31B9DB2EAA0098007C123D /* New Members Check In */,
 				AC31BA282EB3A548007C123D /* New Members Check InTests */,
+				ACBB72A12971F000002F5FC3 /* Config */,
 				AC31BA362EB3A630007C123D /* Frameworks */,
 				ACBB72022971EE7A002F5FC3 /* Products */,
 			);
@@ -383,6 +397,7 @@
 		};
 		ACBB72102971EE7B002F5FC3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACBB72A22971F000002F5FC3 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -397,6 +412,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "New Members Check In";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_SUPABASE_ANON_KEY = "$(SUPABASE_ANON_KEY)";
+				INFOPLIST_KEY_SUPABASE_URL = "$(SUPABASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -424,6 +441,7 @@
 		};
 		ACBB72112971EE7B002F5FC3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACBB72A32971F000002F5FC3 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -438,6 +456,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "New Members Check In";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_SUPABASE_ANON_KEY = "$(SUPABASE_ANON_KEY)";
+				INFOPLIST_KEY_SUPABASE_URL = "$(SUPABASE_URL)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

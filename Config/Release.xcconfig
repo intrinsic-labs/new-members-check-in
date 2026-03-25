@@ -1,0 +1,2 @@
+#include "Secrets.xcconfig.template"
+#include? "Secrets.xcconfig"
