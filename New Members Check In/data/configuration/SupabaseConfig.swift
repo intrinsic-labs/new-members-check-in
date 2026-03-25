@@ -9,11 +9,11 @@ class SupabaseConfig {
     private init() {
         do {
             let supabaseURL = try AppRuntimeConfig.supabaseURL()
-            let supabaseAnonKey = try AppRuntimeConfig.supabaseAnonKey()
+            let supabasePublishableKey = try AppRuntimeConfig.supabasePublishableKey()
 
             self.client = SupabaseClient(
                 supabaseURL: supabaseURL,
-                supabaseKey: supabaseAnonKey
+                supabaseKey: supabasePublishableKey
             )
         } catch {
             fatalError("Failed to initialize Supabase client: \(error.localizedDescription)")

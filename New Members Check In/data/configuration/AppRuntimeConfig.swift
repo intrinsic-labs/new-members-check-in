@@ -9,10 +9,13 @@ enum AppRuntimeConfig {
         return value
     }
 
-    static func supabaseAnonKey() throws -> String {
-        let value = try stringValue(forInfoKey: "SUPABASE_ANON_KEY")
-        if value == "REPLACE_WITH_SUPABASE_ANON_KEY" {
-            throw RuntimeConfigError.invalidValue(key: "SUPABASE_ANON_KEY")
+    static func supabasePublishableKey() throws -> String {
+        let value = try stringValue(forInfoKey: "SUPABASE_PUBLISHABLE_KEY")
+        if value == "REPLACE_WITH_SUPABASE_PUBLISHABLE_KEY" {
+            throw RuntimeConfigError.invalidValue(key: "SUPABASE_PUBLISHABLE_KEY")
+        }
+        if !value.hasPrefix("sb_publishable_") {
+            throw RuntimeConfigError.invalidValue(key: "SUPABASE_PUBLISHABLE_KEY")
         }
         return value
     }
